@@ -9,4 +9,7 @@ export const environment = {
     appId: '1:870069734577:web:cd9ddcd9bab905ef5ba690',
     measurementId: 'G-JD0NJ660VW',
   },
+  appCheck: {
+    key: '6LebH5seAAAAAPqJnCEObtzcC2-l0S7r62MSZ5CH',
+  },
 };
