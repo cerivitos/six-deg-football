@@ -1,3 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+html,
+body {
+  @apply text-slate-800 h-full;
+}
+
+h1 {
+  @apply text-6xl font-bold;
+}
+
+h2 {
+  @apply text-3xl font-bold;
+}
+
+a {
+  @apply text-rose-800 cursor-pointer hover:underline hover:text-rose-500;
+}
+
+button.primary {
+  @apply px-4 py-2 rounded-sm bg-rose-700 text-white font-medium hover:ring-2 hover:ring-rose-300 transition-all duration-300 active:bg-rose-500 disabled:bg-slate-500;
+}
+
+button.secondary {
+  @apply px-4 py-2 rounded-sm font-medium hover:bg-rose-200 transition-all duration-300 active:bg-rose-300;
+}

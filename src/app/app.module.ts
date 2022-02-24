@@ -6,9 +6,11 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
+import { StartPageComponent } from './component/start-page/start-page.component';
+import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, StartPageComponent, PageNotFoundComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
