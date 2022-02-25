@@ -15,6 +15,14 @@ h2 {
   @apply text-3xl font-bold;
 }
 
+h3 {
+  @apply text-xl font-bold;
+}
+
+h4 {
+  @apply uppercase text-sm text-slate-500 font-bold;
+}
+
 a {
   @apply text-rose-800 cursor-pointer hover:underline hover:text-rose-500;
 }

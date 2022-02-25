@@ -1,0 +1,15 @@
+<div
+  class="mb-1 rounded-md cursor-pointer hover:bg-slate-200 hover:ring-1 hover:ring-slate-400 active:bg-slate-300 transition-colors duration-200 px-4 py-2 flex items-center justify-between"
+>
+  <div class="flex items-center gap-x-2">
+    <img
+      src="{{ team!.teamImg.replace('30.png', '90.png') }}"
+      class="object-cover"
+      width="32px"
+      height="32px"
+    />
+    <span>{{ team!.teamName }}</span>
+  </div>
+
+  <span class="text-slate-500 text-sm">{{ season }}</span>
+</div>
