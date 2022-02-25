@@ -26,12 +26,22 @@ export class GamePageComponent implements OnInit {
       isTokenAutoRefreshEnabled: true,
     });
 
-    this.dataService.getMockStartPlayer(253259).then((player) => {
-      this.startPlayer = player!;
-    });
+    if (environment.production) {
+      this.dataService.getPlayer(253259).then((player) => {
+        this.startPlayer = player!;
+      });
 
-    this.dataService.getMockEndPlayer(261294).then((player) => {
-      this.endPlayer = player!;
-    });
+      this.dataService.getPlayer(261294).then((player) => {
+        this.endPlayer = player!;
+      });
+    } else {
+      this.dataService.getMockStartPlayer(253259).then((player) => {
+        this.startPlayer = player!;
+      });
+
+      this.dataService.getMockEndPlayer(261294).then((player) => {
+        this.endPlayer = player!;
+      });
+    }
   }
 }
