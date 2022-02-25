@@ -7,8 +7,6 @@ import {
 import { getApp } from '@angular/fire/app';
 import { environment } from 'src/environments/environment';
 import { DataService } from 'src/app/service/data.service';
-import { tap, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { Player } from 'src/app/model/Player';
 
 @Component({
@@ -19,7 +17,8 @@ import { Player } from 'src/app/model/Player';
 export class GamePageComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
-  player: Player | undefined;
+  startPlayer: Player | undefined;
+  endPlayer: Player | undefined;
 
   ngOnInit(): void {
     initializeAppCheck(getApp(), {
@@ -27,8 +26,12 @@ export class GamePageComponent implements OnInit {
       isTokenAutoRefreshEnabled: true,
     });
 
-    this.dataService.getPlayer(169152).then((player) => {
-      this.player = player!;
+    this.dataService.getMockStartPlayer(253259).then((player) => {
+      this.startPlayer = player!;
+    });
+
+    this.dataService.getMockEndPlayer(261294).then((player) => {
+      this.endPlayer = player!;
     });
   }
 }
