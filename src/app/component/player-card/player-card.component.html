@@ -1,16 +1,15 @@
 <div class="flex flex-col gap-y-2 p-4 items-center justify-center">
   <img
-    class="bg-cover h-[120px] w-[120px]"
+    class="object-cover h-[120px] w-[120px]"
     src="{{ player!.playerImg.replace('_120.png', '_360.png') }}"
     alt="Image of {{ player!.playerName }}"
   />
   <p class="font-bold text-xl">{{ player!.playerName }}</p>
   <div class="flex gap-x-2 items-center">
     <img
-      class="bg-cover h-[48px] w-[48px]"
+      class="object-cover h-[48px] w-[48px]"
       src="{{ player!.history[0].teamImg.replace('30.png', '180.png') }}"
     />
     <p>{{ player!.history[0].teamName }}</p>
-    <span class="text-slate-500 text-sm">{{ season }}</span>
   </div>
 </div>

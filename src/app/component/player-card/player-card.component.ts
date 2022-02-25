@@ -8,12 +8,8 @@ import { Player } from 'src/app/model/Player';
 })
 export class PlayerCardComponent implements OnInit {
   @Input() player: Player | undefined;
-  season: string = '';
 
   constructor() {}
 
-  ngOnInit(): void {
-    const currentTeamId: string = this.player!.history[0].teamId;
-    this.season = currentTeamId.slice(currentTeamId.lastIndexOf('-') + 1);
-  }
+  ngOnInit(): void {}
 }
