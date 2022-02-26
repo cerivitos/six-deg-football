@@ -1,23 +1,21 @@
-<div class="flex items-start w-full">
-  <div class="flex flex-col gap-y-2 items-center w-full">
+<div class="flex flex-col items-center">
+  <div class="flex justify-between w-full md:w-2/3 mb-4">
     <app-player-card
       [player]="startPlayer"
       *ngIf="startPlayer; else loading"
     ></app-player-card>
 
-    <h4>Career</h4>
-    <app-team-panel
-      class="w-full md:w-2/3"
-      *ngFor="let team of startPlayer!.history"
-      [team]="team"
-    ></app-team-panel>
+    <app-player-card
+      [player]="endPlayer"
+      *ngIf="endPlayer; else loading"
+    ></app-player-card>
   </div>
-
-  <app-player-card
-    class="w-full"
-    [player]="endPlayer"
-    *ngIf="endPlayer; else loading"
-  ></app-player-card>
+  <h4 class="mb-2">Select team</h4>
+  <app-team-panel
+    class="w-full md:w-1/3"
+    *ngFor="let team of startPlayer!.history"
+    [team]="team"
+  ></app-team-panel>
 </div>
 
 <ng-template #loading>
