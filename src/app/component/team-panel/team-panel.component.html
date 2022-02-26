@@ -8,8 +8,10 @@
       src="{{ team!.teamImg.replace('30.png', '90.png') }}"
       class="object-cover md:h-8 md:w-8 w-6 h-6"
     />
-    <span class="md:text-base text-sm">{{ team!.teamName }}</span>
+    <span class="md:text-base text-sm text-left line-clamp-2 text-ellipsis">{{
+      team!.teamName
+    }}</span>
   </div>
 
-  <span class="text-slate-500 md:text-base text-sm">{{ season }}</span>
+  <span class="text-slate-500 md:text-base text-sm ml-2">{{ season }}</span>
 </div>

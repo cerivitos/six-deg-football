@@ -9,10 +9,18 @@ import { GameControllerService } from 'src/app/service/game-controller.service';
 })
 export class PlayerPanelComponent implements OnInit {
   @Input() player: Player | undefined;
+  @Input() isHeader: boolean = false;
+
+  selectableClassList: string = '';
 
   constructor(private gameControllerService: GameControllerService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!this.isHeader) {
+      this.selectableClassList =
+        'px-4 cursor-pointer hover:bg-slate-200 active:bg-slate-300 transition-colors duration-200';
+    }
+  }
 
   onSelect(player: Player) {
     this.gameControllerService.onPlayerSelected(player);

@@ -9,11 +9,12 @@
       class="flex flex-col gap-y-4 py-4 justify-center items-center"
       *ngIf="startPlayer$ | async as startPlayer; else loading"
     >
-      <span class="text-3xl font-bold"
-        ><span class="text-4xl mr-4">👣</span>{{ steps$ | async }}</span
+      <span class="text-xl md:text-3xl font-bold"
+        ><span class="text-base md:text-4xl mr-2 md:mr-4">👣</span
+        >{{ steps$ | async }}</span
       >
-      <span class="text-3xl font-bold"
-        ><span class="text-4xl mr-4">⏱️</span
+      <span class="text-xl md:text-3xl font-bold"
+        ><span class="text-base md:text-4xl mr-2 md:mr-4">⏱️</span
         >{{ convertMs(time$ | async) }}</span
       >
     </div>
@@ -29,7 +30,12 @@
     class="w-full md:w-1/3 text-center"
   >
     <div *ngIf="playerHistory$ | async as playerHistory; else loading">
-      <h4 class="mb-2">Select team</h4>
+      <app-player-panel
+        [player]="playerHistory[playerHistory.length - 1]"
+        [isHeader]="true"
+      ></app-player-panel>
+
+      <h4 class="mt-4 mb-2">Select team</h4>
       <app-team-panel
         *ngFor="let team of playerHistory[playerHistory.length - 1]!.history"
         [team]="team"
