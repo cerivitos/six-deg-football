@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@100;400;700;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +6,7 @@
 html,
 body {
   @apply text-slate-800 h-full;
+  font-family: "Archivo", sans-serif;
 }
 
 h1 {
