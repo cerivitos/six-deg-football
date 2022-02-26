@@ -1,5 +1,7 @@
 <div
-  class="cursor-pointer hover:bg-slate-200 active:bg-slate-300 transition-colors duration-200 px-4 py-2 flex items-center justify-between"
+  class="px-4 py-2 flex items-center justify-between"
+  [ngClass]="selectableClassList"
+  (click)="isHeader ? null : onSelect(team)"
 >
   <div class="flex items-center gap-x-2">
     <img

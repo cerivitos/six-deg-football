@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Player } from '../model/Player';
+import { Team } from '../model/Team';
 
 @Injectable({
   providedIn: 'root',
@@ -58,10 +59,10 @@ export class DataService {
     };
   }
 
-  async getPlayersInTeam(teamId: number): Promise<Player[]> {
+  async getPlayersInTeam(team: Team): Promise<Player[]> {
     const snapshot = await this.firestore
       .collection('players')
-      .ref.where('teamId', '==', teamId)
+      .ref.where('history', 'array-contains', team)
       .get();
 
     if (snapshot.empty) {
@@ -72,7 +73,7 @@ export class DataService {
         players.push(doc.data() as Player);
       });
 
-      return players;
+      return players.sort((a, b) => a.playerName.localeCompare(b.playerName));
     }
   }
 }
