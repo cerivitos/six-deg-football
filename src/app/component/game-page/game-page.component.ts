@@ -8,6 +8,9 @@ import { getApp } from '@angular/fire/app';
 import { environment } from 'src/environments/environment';
 import { DataService } from 'src/app/service/data.service';
 import { Player } from 'src/app/model/Player';
+import { GameControllerService } from 'src/app/service/game-controller.service';
+import { Observable } from 'rxjs';
+import { convertMs } from 'src/app/util/convertMs';
 
 @Component({
   selector: 'app-game-page',
@@ -15,33 +18,37 @@ import { Player } from 'src/app/model/Player';
   styleUrls: ['./game-page.component.css'],
 })
 export class GamePageComponent implements OnInit {
-  constructor(private dataService: DataService) {}
+  constructor(private gameControllerService: GameControllerService) {}
 
-  startPlayer: Player | undefined;
-  endPlayer: Player | undefined;
+  startPlayer$: Observable<Player | undefined> = new Observable<
+    Player | undefined
+  >();
 
-  ngOnInit(): void {
+  endPlayer$: Observable<Player | undefined> = new Observable<
+    Player | undefined
+  >();
+
+  steps$: Observable<number> = new Observable<number>();
+  time$: Observable<number> = new Observable<number>();
+
+  ngOnInit() {
     initializeAppCheck(getApp(), {
       provider: new ReCaptchaV3Provider(environment.appCheck.key),
       isTokenAutoRefreshEnabled: true,
     });
 
-    if (environment.production) {
-      this.dataService.getPlayer(253259).then((player) => {
-        this.startPlayer = player!;
-      });
+    this.initGame(1111, 100375);
+  }
 
-      this.dataService.getPlayer(261294).then((player) => {
-        this.endPlayer = player!;
-      });
-    } else {
-      this.dataService.getMockStartPlayer(253259).then((player) => {
-        this.startPlayer = player!;
-      });
+  async initGame(startPlayerId: number, endPlayerId: number) {
+    await this.gameControllerService.initGame(startPlayerId, endPlayerId);
+    this.startPlayer$ = this.gameControllerService.startPlayer$;
+    this.endPlayer$ = this.gameControllerService.endPlayer$;
+    this.steps$ = this.gameControllerService.steps$;
+    this.time$ = this.gameControllerService.time$;
+  }
 
-      this.dataService.getMockEndPlayer(261294).then((player) => {
-        this.endPlayer = player!;
-      });
-    }
+  convertMs(ms: number | null): string {
+    return convertMs(ms);
   }
 }

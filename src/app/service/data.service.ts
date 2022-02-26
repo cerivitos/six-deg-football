@@ -9,16 +9,13 @@ export class DataService {
   constructor(private firestore: AngularFirestore) {}
 
   async getPlayer(playerId: number): Promise<Player | undefined> {
-    return this.firestore
-      .doc(`players/${playerId}`)
-      .ref.get()
-      .then((doc) => {
-        return doc.data() as Player;
-      })
-      .catch((error) => {
-        console.warn(error);
-        return undefined;
-      });
+    const snapshot = await this.firestore.doc(`players/${playerId}`).ref.get();
+
+    if (snapshot.exists) {
+      return snapshot.data() as Player;
+    } else {
+      return undefined;
+    }
   }
 
   async getMockStartPlayer(playerId: number): Promise<Player | undefined> {
@@ -59,5 +56,23 @@ export class DataService {
         },
       ],
     };
+  }
+
+  async getPlayersInTeam(teamId: number): Promise<Player[]> {
+    const snapshot = await this.firestore
+      .collection('players')
+      .ref.where('teamId', '==', teamId)
+      .get();
+
+    if (snapshot.empty) {
+      return [];
+    } else {
+      let players: Player[] = [];
+      snapshot.forEach((doc) => {
+        players.push(doc.data() as Player);
+      });
+
+      return players;
+    }
   }
 }

@@ -7,7 +7,7 @@ import { Player } from 'src/app/model/Player';
   styleUrls: ['./player-card.component.css'],
 })
 export class PlayerCardComponent implements OnInit {
-  @Input() player: Player | undefined;
+  @Input() player: Player | undefined | null;
 
   constructor() {}
 

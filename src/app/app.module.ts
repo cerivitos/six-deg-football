@@ -16,7 +16,7 @@ import { PageNotFoundComponent } from './component/page-not-found/page-not-found
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AppCheckModule,
   ],
   providers: [],

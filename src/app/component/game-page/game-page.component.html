@@ -2,27 +2,45 @@
   <div class="flex justify-between w-full md:w-2/3 mb-4">
     <app-player-card
       [player]="startPlayer"
-      *ngIf="startPlayer; else loading"
+      *ngIf="startPlayer$ | async as startPlayer; else loading"
     ></app-player-card>
+
+    <div
+      class="flex flex-col gap-y-4 py-4 justify-center items-center"
+      *ngIf="startPlayer$ | async as startPlayer; else loading"
+    >
+      <span class="text-3xl font-bold"
+        ><span class="text-4xl mr-4">👣</span>{{ steps$ | async }}</span
+      >
+      <span class="text-3xl font-bold"
+        ><span class="text-4xl mr-4">⏱️</span
+        >{{ convertMs(time$ | async) }}</span
+      >
+    </div>
 
     <app-player-card
       [player]="endPlayer"
-      *ngIf="endPlayer; else loading"
+      *ngIf="endPlayer$ | async as endPlayer; else loading"
     ></app-player-card>
   </div>
-  <h4 class="mb-2">Select team</h4>
-  <app-team-panel
-    class="w-full md:w-1/3"
-    *ngFor="let team of startPlayer!.history"
-    [team]="team"
-  ></app-team-panel>
+
+  <div
+    class="w-full md:w-1/3 text-center"
+    *ngIf="startPlayer$ | async as startPlayer; else loading"
+  >
+    <h4 class="mb-2">Select team</h4>
+    <app-team-panel
+      *ngFor="let team of startPlayer!.history"
+      [team]="team"
+    ></app-team-panel>
+  </div>
 </div>
 
 <ng-template #loading>
   <div
     class="w-full md:w-2/3 mt-12 md:mt-24 flex flex-col gap-y-4 items-center justify-center"
   >
-    <div class="flex text-center justify-center items-center text-emerald-400">
+    <div class="flex text-center justify-center items-center text-rose-400">
       <div class="dot">
         <div>·</div>
       </div>
@@ -33,8 +51,5 @@
         <div>·</div>
       </div>
     </div>
-    <span class="text-center animate-pulse text-sm font-bold"
-      >Choose which headline is REAL</span
-    >
   </div>
 </ng-template>
