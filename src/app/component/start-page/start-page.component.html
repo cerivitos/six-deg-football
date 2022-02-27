@@ -1,7 +1,26 @@
-<header class="p-4 pb-16">
+<header class="p-4 pb-16 w-full text-center">
   <h1>6 degrees of football</h1>
 </header>
 
-<div class="w-full px-4 pb-16 flex justify-center">
-  <button class="primary md:w-1/3 w-full" routerLink="/game">Start Game</button>
-</div>
+<main
+  class="w-full flex flex-col items-center justify-center px-4 overflow-x-hidden"
+>
+  <div class="md:w-2/3 w-full">
+    <h2 class="mb-4">How to play</h2>
+    <div class="line-item">
+      <span>🤔</span>
+      <p>Find the connection between the starting and ending player</p>
+    </div>
+    <div class="line-item">
+      <span>🔥</span>
+      <p>The least number of steps in the fastest time wins!</p>
+    </div>
+    <div class="line-item">
+      <span>🎖️</span>
+      <p>Challenge your friends</p>
+    </div>
+  </div>
+  <button class="mt-12 primary md:w-1/3 w-full" routerLink="/game">
+    Start Game
+  </button>
+</main>

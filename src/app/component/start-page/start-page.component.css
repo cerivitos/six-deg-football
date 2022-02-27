@@ -1,0 +1,11 @@
+.line-item {
+  @apply grid grid-cols-8 items-center mb-2;
+}
+
+.line-item > span {
+  @apply text-2xl text-left;
+}
+
+.line-item > p {
+  @apply col-span-7;
+}
