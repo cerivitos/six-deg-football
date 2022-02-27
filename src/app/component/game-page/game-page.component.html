@@ -25,7 +25,7 @@
 
   <div
     *ngIf="(selectionState$ | async) === 'team'; else playerSelect"
-    class="w-full md:w-1/2 text-center"
+    class="w-full md:w-1/2 text-center mb-6"
   >
     <div *ngIf="playerHistory$ | async as playerHistory; else loading">
       <app-player-panel
@@ -43,7 +43,7 @@
 </div>
 
 <ng-template #playerSelect>
-  <div class="w-full md:w-1/2 text-center">
+  <div class="w-full md:w-1/2 text-center mb-6">
     <div *ngIf="teamHistory$ | async as teamHistory">
       <app-team-panel
         [team]="teamHistory[teamHistory.length - 1]"

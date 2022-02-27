@@ -1,29 +1,65 @@
 <div class="p-4 flex flex-col items-center">
-  <div class="justify-center items-center w-full md:w-2/3 flex-col flex">
-    <h3 class="mb-2">{{ steps$ | async }}</h3>
-    <h3 class="mb-8">{{ convertSec(time$ | async) }}</h3>
+  <div class="justify-center items-center w-full md:w-1/3 flex-col flex">
+    <h2 class="mb-2 flex items-center gap-x-2 w-full justify-center">
+      <h4 class="text-rose-700">Steps</h4>
+      {{ steps$ | async }}
+    </h2>
+    <h2 class="mb-8 flex items-center gap-x-2 w-full justify-center">
+      <h4 class="text-rose-700">Time</h4>
+      {{ convertSec(time$ | async) }}
+    </h2>
     <div
-      class="flex flex-wrap gap-2 items-center justify-center mb-4"
+      class="grid grid-cols-max gap-4 items-center justify-center mb-4"
       *ngIf="playerHistory$ | async as playerHistory"
     >
-      <img
-        *ngFor="let player of playerHistory"
-        class="object-cover md:h-16 md:w-16 h-14 w-14"
-        src="{{ player!.playerImg.replace('_120.png', '_360.png') }}"
-        alt="Image of {{ player.playerName }}"
-      />
-    </div>
-    <div
-      class="flex flex-wrap gap-2 items-center justify-center mb-4"
-      *ngIf="teamHistory$ | async as teamHistory"
-    >
-      <img
-        *ngFor="let team of teamHistory"
-        class="object-cover md:h-16 md:w-16 h-14 w-14"
-        src="{{ team!.teamImg.replace('30.png', '90.png') }}"
-        onerror="this.src='https://cdn.sofifa.net/teams/notfound_120.png'"
-        alt="Image of {{ team.teamName }}"
-      />
+      <div
+        *ngFor="let player of playerHistory; let p = index"
+        class="grid grid-cols-2 gap-2 items-center p-2"
+      >
+        <div class="flex flex-col gap-y-1 items-center justify-center">
+          <img
+            class="object-cover md:h-18 md:w-18 h-14 w-14"
+            src="{{ player!.playerImg.replace('_120.png', '_360.png') }}"
+            alt="Image of {{ player.playerName }}"
+          />
+          <span class="md:text-sm text-xs font-bold line-clamp-2 text-center">{{
+            player.playerName
+          }}</span>
+        </div>
+
+        <div
+          class="flex flex-wrap gap-2 items-center justify-center"
+          *ngIf="teamHistory$ | async as teamHistory"
+        >
+          <div
+            class="flex flex-col gap-y-1 items-center justify-center"
+            *ngIf="p < teamHistory.length"
+          >
+            <img
+              class="object-cover md:h-8 md:w-8 h-6 w-6"
+              src="{{ teamHistory[p]!.teamImg.replace('30.png', '90.png') }}"
+              onerror="this.src='https://cdn.sofifa.net/teams/notfound_120.png'"
+              alt="Image of {{ teamHistory[p].teamName }}"
+            />
+            <span class="md:text-sm text-xs line-clamp-2"
+              >{{ teamHistory[p].teamName }}
+            </span>
+            <span
+              class="md:text-sm text-xs font-light text-slate-500 leading-3"
+              >{{
+                teamHistory[p].teamId.slice(
+                  teamHistory[p].teamId.indexOf("-") + 1
+                )
+              }}</span
+            >
+          </div>
+        </div>
+        <span
+          *ngIf="p < playerHistory.length - 1"
+          class="w-full text-center text-rose-700 text-base md:text-lg col-span-2"
+          >▼</span
+        >
+      </div>
     </div>
   </div>
 </div>
