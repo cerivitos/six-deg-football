@@ -13,7 +13,7 @@
       <span class="text-xl md:text-3xl font-bold">{{ steps$ | async }}</span>
       <span class="text-xs md:text-sm uppercase text-rose-600 mt-2">Time</span>
       <span class="text-xl md:text-3xl font-bold">{{
-        convertMs(time$ | async)
+        convertSec(time$ | async)
       }}</span>
     </div>
 

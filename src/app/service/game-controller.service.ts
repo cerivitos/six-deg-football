@@ -99,7 +99,7 @@ export class GameControllerService {
 
   private _startTimer(): any {
     return setInterval(() => {
-      this._time$.next(this._time$.getValue() + 1000);
+      this._time$.next(this._time$.getValue() + 1);
     }, 1000);
   }
 

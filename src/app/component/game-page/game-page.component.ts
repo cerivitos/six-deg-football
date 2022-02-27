@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 
 import {
   initializeAppCheck,
@@ -10,7 +10,8 @@ import { Player } from 'src/app/model/Player';
 import { GameControllerService } from 'src/app/service/game-controller.service';
 import { Observable } from 'rxjs';
 import { Team } from 'src/app/model/Team';
-import { convertMs } from 'src/app/util/convertMs';
+import { convertSec } from 'src/app/util/convertSec';
+import { WINDOW } from '@ng-web-apis/common';
 
 @Component({
   selector: 'app-game-page',
@@ -18,7 +19,10 @@ import { convertMs } from 'src/app/util/convertMs';
   styleUrls: ['./game-page.component.css'],
 })
 export class GamePageComponent implements OnInit {
-  constructor(private gameControllerService: GameControllerService) {}
+  constructor(
+    private gameControllerService: GameControllerService,
+    @Inject(WINDOW) readonly windowRef: any
+  ) {}
 
   startPlayer$: Observable<Player | undefined> = new Observable<
     Player | undefined
@@ -40,6 +44,10 @@ export class GamePageComponent implements OnInit {
   currentPlayerList$: Observable<Player[]> = new Observable<Player[]>();
 
   ngOnInit() {
+    if (location.hostname === 'localhost') {
+      this.windowRef.self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+    }
+
     initializeAppCheck(getApp(), {
       provider: new ReCaptchaV3Provider(environment.appCheck.key),
       isTokenAutoRefreshEnabled: true,
@@ -60,7 +68,7 @@ export class GamePageComponent implements OnInit {
     this.currentPlayerList$ = this.gameControllerService.currentPlayerList$;
   }
 
-  convertMs(ms: number | null): string {
-    return convertMs(ms);
+  convertSec(s: number | null): string {
+    return convertSec(s);
   }
 }
