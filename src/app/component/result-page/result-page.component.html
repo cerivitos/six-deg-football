@@ -1,6 +1,6 @@
-<div clas="p4 flex flex-col">
+<div class="p-4 flex flex-col w-full md:w-2/3">
   <h3 class="mb-2">{{ steps$ | async }}</h3>
-  <h3 class="mb-8">{{ time$ | async }}</h3>
+  <h3 class="mb-8">{{ convertMs(time$ | async) }}</h3>
   <div
     class="flex flex-wrap gap-2 items-center justify-center mb-4"
     *ngIf="playerHistory$ | async as playerHistory"
@@ -20,6 +20,7 @@
       *ngFor="let team of teamHistory"
       class="object-cover md:h-16 md:w-16 h-14 w-14"
       src="{{ team!.teamImg.replace('30.png', '90.png') }}"
+      onerror="this.src='https://cdn.sofifa.net/teams/notfound_120.png'"
       alt="Image of {{ team.teamName }}"
     />
   </div>
