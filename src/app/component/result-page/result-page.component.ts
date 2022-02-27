@@ -3,6 +3,7 @@ import { Player } from 'src/app/model/Player';
 import { Team } from 'src/app/model/Team';
 import { GameControllerService } from 'src/app/service/game-controller.service';
 import { Observable } from 'rxjs';
+import { convertMs } from 'src/app/util/convertMs';
 
 @Component({
   selector: 'app-result-page',
@@ -22,5 +23,9 @@ export class ResultPageComponent implements OnInit {
     this.time$ = this.gameControllerService.time$;
     this.teamHistory$ = this.gameControllerService.teamHistory$;
     this.playerHistory$ = this.gameControllerService.playerHistory$;
+  }
+
+  convertMs(ms: number | null): string {
+    return convertMs(ms);
   }
 }

@@ -9,8 +9,8 @@ import { environment } from 'src/environments/environment';
 import { Player } from 'src/app/model/Player';
 import { GameControllerService } from 'src/app/service/game-controller.service';
 import { Observable } from 'rxjs';
-import { convertMs } from 'src/app/util/convertMs';
 import { Team } from 'src/app/model/Team';
+import { convertMs } from 'src/app/util/convertMs';
 
 @Component({
   selector: 'app-game-page',
