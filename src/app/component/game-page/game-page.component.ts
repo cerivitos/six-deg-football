@@ -53,7 +53,7 @@ export class GamePageComponent implements OnInit {
       isTokenAutoRefreshEnabled: true,
     });
 
-    this.initGame(20801, 41236);
+    this.initGame(20801, 13128);
   }
 
   async initGame(startPlayerId: number, endPlayerId: number) {

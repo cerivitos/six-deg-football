@@ -11,6 +11,7 @@
     <img
       class="object-cover md:h-8 md:w-8 w-6 h-6"
       src="{{ player!.history[0].teamImg.replace('30.png', '180.png') }}"
+      onerror="this.src='https://cdn.sofifa.net/teams/notfound_120.png'"
     />
     <p class="md:text-sm text-xs line-clamp-2 text-left">
       {{ player!.history[0].teamName }}
