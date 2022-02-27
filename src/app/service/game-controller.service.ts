@@ -129,7 +129,7 @@ export class GameControllerService {
     this._playerHistory$.next(this._playerHistory$.getValue().concat(player));
 
     if (this._checkIfWin(player, this._endPlayer$.getValue()!)) {
-      this.timer.clearInterval();
+      clearInterval(this.timer);
       this.router.navigateByUrl('/result');
     } else {
       this._selectionState$.next('team');
