@@ -130,6 +130,7 @@ export class GameControllerService {
 
     if (this._checkIfWin(player, this._endPlayer$.getValue()!)) {
       clearInterval(this.timer);
+      this._steps$.next(this._steps$.getValue() + 1);
       this.router.navigateByUrl('/result');
     } else {
       this._selectionState$.next('team');
