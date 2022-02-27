@@ -6,7 +6,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { GameControllerService } from './service/game-controller.service';
 
@@ -15,6 +15,7 @@ import { GameControllerService } from './service/game-controller.service';
 })
 export class ResultGuard implements CanActivate {
   steps: number = 0;
+  stepsSubscription: Subscription | undefined;
 
   constructor(
     private gameControllerService: GameControllerService,
@@ -25,11 +26,11 @@ export class ResultGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | UrlTree {
-    const stepsSubscription = this.gameControllerService.steps$
+    this.stepsSubscription = this.gameControllerService.steps$
       .pipe(
         tap((steps) => {
           this.steps = steps;
-          stepsSubscription.unsubscribe();
+          this.stepsSubscription?.unsubscribe();
         })
       )
       .subscribe();
