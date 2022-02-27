@@ -7,6 +7,7 @@
     <img
       src="{{ team!.teamImg.replace('30.png', '90.png') }}"
       class="object-cover md:h-8 md:w-8 w-6 h-6"
+      onerror="this.src='https://cdn.sofifa.net/teams/notfound_120.png'"
     />
     <span class="md:text-base text-sm text-left line-clamp-2 text-ellipsis">{{
       team!.teamName
