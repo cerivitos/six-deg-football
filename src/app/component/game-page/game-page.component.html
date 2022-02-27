@@ -1,22 +1,20 @@
 <div class="flex flex-col items-center">
-  <div class="flex justify-between w-full md:w-2/3 mb-4">
+  <div class="grid grid-cols-3 justify-between w-full md:w-2/3 mb-4">
     <app-player-card
       [player]="startPlayer"
       *ngIf="startPlayer$ | async as startPlayer; else loading"
     ></app-player-card>
 
     <div
-      class="flex flex-col gap-y-4 py-4 justify-center items-center"
+      class="flex flex-col py-4 justify-center items-center"
       *ngIf="startPlayer$ | async as startPlayer; else loading"
     >
-      <span class="text-xl md:text-3xl font-bold"
-        ><span class="text-base md:text-4xl mr-2 md:mr-4">👣</span
-        >{{ steps$ | async }}</span
-      >
-      <span class="text-xl md:text-3xl font-bold"
-        ><span class="text-base md:text-4xl mr-2 md:mr-4">⏱️</span
-        >{{ convertMs(time$ | async) }}</span
-      >
+      <span class="text-xs md:text-sm uppercase text-rose-600">Steps</span>
+      <span class="text-xl md:text-3xl font-bold">{{ steps$ | async }}</span>
+      <span class="text-xs md:text-sm uppercase text-rose-600 mt-2">Time</span>
+      <span class="text-xl md:text-3xl font-bold">{{
+        convertMs(time$ | async)
+      }}</span>
     </div>
 
     <app-player-card
@@ -27,7 +25,7 @@
 
   <div
     *ngIf="(selectionState$ | async) === 'team'; else playerSelect"
-    class="w-full md:w-1/3 text-center"
+    class="w-full md:w-1/2 text-center"
   >
     <div *ngIf="playerHistory$ | async as playerHistory; else loading">
       <app-player-panel
