@@ -46,3 +46,5 @@ Thumbs.db
 
 .vercel
 .env
+test-player-history.json
+test-team-history.json

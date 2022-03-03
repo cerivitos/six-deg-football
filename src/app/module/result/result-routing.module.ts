@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: '',
     component: ResultPageComponent,
-    canActivate: [ResultGuard],
+    //canActivate: [ResultGuard],
   },
 ];
 
