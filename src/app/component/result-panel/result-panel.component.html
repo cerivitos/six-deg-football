@@ -1,0 +1,21 @@
+<div class="px-4 py-2 flex items-center justify-between">
+  <div class="flex">
+    <img
+      class="object-cover md:h-9 md:w-9 h-7 w-7"
+      src="{{ playerImg!.replace('_120.png', '_360.png') }}"
+      alt="Image of {{ playerName }}"
+    />
+    <span
+      class="ml-2 basis-1/2 shrink-0 justify-self-start text-xs overflow-ellipsis line-clamp-2"
+      >{{ playerName }}</span
+    >
+  </div>
+
+  <img
+    *ngIf="teamName && teamImg"
+    class="grow-0 object-cover md:h-7 md:w-7 h-5 w-5"
+    src="{{ teamImg.replace('30.png', '90.png') }}"
+    onerror="this.src='https://cdn.sofifa.net/teams/notfound_120.png'"
+    alt="Image of {{ teamName }}"
+  />
+</div>

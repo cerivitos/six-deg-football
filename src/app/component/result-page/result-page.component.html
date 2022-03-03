@@ -12,57 +12,36 @@
       <button class="secondary w-1/2" routerLink="/">Home</button>
       <button class="primary w-1/2">Share</button>
     </div>
-    <div
-      class="grid grid-cols-max gap-4 items-center justify-center mb-4"
-      *ngIf="playerHistory$ | async as playerHistory"
-    >
+    <div *ngIf="teamHistory$ | async as teamHistory">
       <div
-        *ngFor="let player of playerHistory; let p = index"
-        class="grid grid-cols-2 gap-2 items-center p-2"
+        class="flex flex-wrap gap-2 items-center justify-center mb-4 w-full"
+        *ngIf="playerHistory$ | async as playerHistory"
       >
-        <div class="flex flex-col gap-y-1 items-center justify-center">
-          <img
-            class="object-cover md:h-18 md:w-18 h-14 w-14"
-            src="{{ player!.playerImg.replace('_120.png', '_360.png') }}"
-            alt="Image of {{ player.playerName }}"
-          />
-          <span class="md:text-sm text-xs font-bold line-clamp-2 text-center">{{
-            player.playerName
-          }}</span>
-        </div>
-
         <div
-          class="flex flex-wrap gap-2 items-center justify-center"
-          *ngIf="teamHistory$ | async as teamHistory"
+          *ngFor="let player of playerHistory; let p = index"
+          class="flex items-center md:w-1/4 w-full"
         >
-          <div
-            class="flex flex-col gap-y-1 items-center justify-center"
-            *ngIf="p < teamHistory.length"
+          <span
+            ngClass="{{ p > 0 ? 'text-rose-700' : 'text-transparent' }}"
+            class="text-center text-base md:text-lg"
           >
-            <img
-              class="object-cover md:h-8 md:w-8 h-6 w-6"
-              src="{{ teamHistory[p]!.teamImg.replace('30.png', '90.png') }}"
-              onerror="this.src='https://cdn.sofifa.net/teams/notfound_120.png'"
-              alt="Image of {{ teamHistory[p].teamName }}"
-            />
-            <span class="md:text-sm text-xs line-clamp-2"
-              >{{ teamHistory[p].teamName }}
-            </span>
-            <span
-              class="md:text-sm text-xs font-light text-slate-500 leading-3"
-              >{{
-                teamHistory[p].teamId.slice(
-                  teamHistory[p].teamId.indexOf("-") + 1
-                )
-              }}</span
-            >
-          </div>
+            ➤
+          </span>
+          <app-result-panel
+            class="w-full"
+            [playerName]="player.playerName"
+            [playerImg]="player.playerImg"
+            [teamName]="teamHistory[p]?.teamName"
+            [teamImg]="teamHistory[p]?.teamImg"
+            [season]="
+              teamHistory[p]
+                ? teamHistory[p].teamId.slice(
+                    teamHistory[p].teamId.indexOf('-') + 1
+                  )
+                : undefined
+            "
+          ></app-result-panel>
         </div>
-        <span
-          *ngIf="p < playerHistory.length - 1"
-          class="w-full text-center text-rose-700 text-base md:text-lg col-span-2"
-          >▼</span
-        >
       </div>
     </div>
   </div>
