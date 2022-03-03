@@ -29,6 +29,11 @@
           </span>
           <app-result-panel
             class="w-full"
+            ngClass="{{
+              p === 0 || p === playerHistory.length - 1
+                ? 'bg-gradient-to-r from-rose-700 to-fuchsia-700 font-bold text-white rounded-lg'
+                : 'bg-transparent'
+            }}"
             [playerName]="player.playerName"
             [playerImg]="player.playerImg"
             [teamName]="teamHistory[p]?.teamName"
