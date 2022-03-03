@@ -30,9 +30,9 @@ a {
 }
 
 button.primary {
-  @apply px-4 py-2 rounded-sm bg-rose-700 text-white font-medium hover:ring-4 hover:ring-rose-300 transition-all duration-300 active:bg-rose-500 disabled:bg-slate-500;
+  @apply px-4 py-2 rounded-lg bg-gradient-to-b from-rose-500 via-rose-600 to-rose-800 text-white font-bold hover:ring-4 hover:ring-rose-300 transition-all duration-300 active:from-rose-700 active:via-rose-700 disabled:bg-slate-500;
 }
 
 button.secondary {
-  @apply px-4 py-2 rounded-sm font-medium text-rose-700 bg-rose-200 hover:bg-rose-300 transition-all duration-300 active:bg-rose-400 hover:ring-4 hover:ring-rose-300 disabled:bg-slate-500;
+  @apply px-4 py-2 rounded-lg font-medium text-rose-700 font-bold bg-rose-200 hover:bg-rose-300 transition-all duration-300 active:bg-rose-400 hover:ring-4 hover:ring-rose-300 disabled:bg-slate-500;
 }

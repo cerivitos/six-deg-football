@@ -68,4 +68,8 @@ export class ResultPageComponent implements OnInit {
   convertSec(s: number | null): string {
     return convertSec(s);
   }
+
+  share() {
+    console.log('share');
+  }
 }
