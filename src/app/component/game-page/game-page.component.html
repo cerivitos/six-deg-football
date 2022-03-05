@@ -5,12 +5,12 @@
   >
     <app-player-card
       [player]="startPlayer"
-      *ngIf="startPlayer$ | async as startPlayer; else loading"
+      *ngIf="startPlayer$ | async as startPlayer; else playerLoading"
     ></app-player-card>
 
     <div
       class="flex flex-col py-4 justify-center items-center"
-      *ngIf="startPlayer$ | async as startPlayer; else loading"
+      *ngIf="startPlayer$ | async as startPlayer; else middleLoading"
     >
       <span class="text-xs md:text-sm uppercase text-rose-600">Steps</span>
       <span class="text-xl md:text-3xl font-bold">{{ steps$ | async }}</span>
@@ -22,7 +22,7 @@
 
     <app-player-card
       [player]="endPlayer"
-      *ngIf="endPlayer$ | async as endPlayer; else loading"
+      *ngIf="endPlayer$ | async as endPlayer; else playerLoading"
     ></app-player-card>
   </div>
 
@@ -31,7 +31,7 @@
     class="w-full md:w-1/2 text-center mb-6"
     [style.margin-top.px]="topBar.offsetHeight"
   >
-    <div *ngIf="playerHistory$ | async as playerHistory; else loading">
+    <div *ngIf="playerHistory$ | async as playerHistory">
       <app-player-panel
         [player]="playerHistory[playerHistory.length - 1]"
         [isHeader]="true"
@@ -65,20 +65,19 @@
   </div>
 </ng-template>
 
-<ng-template #loading>
-  <div
-    class="w-full md:w-2/3 mt-12 md:mt-24 flex flex-col gap-y-4 items-center justify-center"
-  >
-    <div class="flex text-center justify-center items-center text-rose-400">
-      <div class="dot">
-        <div>·</div>
-      </div>
-      <div class="dot">
-        <div>·</div>
-      </div>
-      <div class="dot">
-        <div>·</div>
-      </div>
-    </div>
+<ng-template #playerLoading>
+  <div class="flex flex-col gap-y-4 px-2 py-6 justify-center items-center">
+    <div
+      class="rounded-full md:w-20 md:h-20 w-14 h-12 bg-slate-200 animate-pulse"
+    ></div>
+    <div class="rounded-sm md:w-20 h-6 w-14 bg-slate-200 animate pulse"></div>
+    <div class="rounded-sm md:w-20 h-6 w-14 bg-slate-200 animate pulse"></div>
+  </div>
+</ng-template>
+
+<ng-template #middleLoading>
+  <div class="flex flex-col gap-y-4 p-2 justify-center items-center">
+    <div class="rounded-sm md:w-20 h-6 w-12 bg-slate-200 animate pulse"></div>
+    <div class="rounded-sm md:w-20 h-6 w-12 bg-slate-200 animate pulse"></div>
   </div>
 </ng-template>
