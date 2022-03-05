@@ -129,8 +129,6 @@ export class GameControllerService {
     this._playerHistory$.next(this._playerHistory$.getValue().concat(player));
 
     if (this._checkIfWin(player, this._endPlayer$.getValue()!)) {
-      console.log(this._playerHistory$.getValue());
-      console.log(this._teamHistory$.getValue());
       clearInterval(this.timer);
       this._steps$.next(this._steps$.getValue() + 1);
       this.router.navigateByUrl('/result');

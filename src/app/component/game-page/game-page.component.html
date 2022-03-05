@@ -70,14 +70,23 @@
     <div
       class="rounded-full md:w-20 md:h-20 w-14 h-12 bg-slate-200 animate-pulse"
     ></div>
-    <div class="rounded-sm md:w-20 h-6 w-14 bg-slate-200 animate pulse"></div>
-    <div class="rounded-sm md:w-20 h-6 w-14 bg-slate-200 animate pulse"></div>
+    <div class="rounded-sm md:w-20 h-6 w-14 bg-slate-200 animate-pulse"></div>
+    <div class="rounded-sm md:w-20 h-6 w-14 bg-slate-200 animate-pulse"></div>
   </div>
 </ng-template>
 
 <ng-template #middleLoading>
   <div class="flex flex-col gap-y-4 p-2 justify-center items-center">
-    <div class="rounded-sm md:w-20 h-6 w-12 bg-slate-200 animate pulse"></div>
-    <div class="rounded-sm md:w-20 h-6 w-12 bg-slate-200 animate pulse"></div>
+    <div class="rounded-sm md:w-20 h-6 w-12 bg-slate-200 animate-pulse"></div>
+    <div class="rounded-sm md:w-20 h-6 w-12 bg-slate-200 animate-pulse"></div>
+  </div>
+</ng-template>
+
+<ng-template #listLoading>
+  <div class="flex flex-col gap-y-4 mt-4 px-4">
+    <div
+      *ngFor="let panel of [].constructor(10)"
+      class="rounded-sm h-10 w-full bg-slate-200 animate-pulse"
+    ></div>
   </div>
 </ng-template>

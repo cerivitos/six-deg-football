@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Player } from '../model/Player';
 import { Team } from '../model/Team';
 
@@ -9,8 +10,15 @@ import { Team } from '../model/Team';
 export class DataService {
   constructor(private firestore: AngularFirestore) {}
 
+  _isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoading$: Observable<boolean> = this._isLoading$.asObservable();
+
   async getPlayer(playerId: number): Promise<Player | undefined> {
+    this._isLoading$.next(true);
+
     const snapshot = await this.firestore.doc(`players/${playerId}`).ref.get();
+
+    this._isLoading$.next(false);
 
     if (snapshot.exists) {
       return snapshot.data() as Player;
@@ -60,10 +68,14 @@ export class DataService {
   }
 
   async getPlayersInTeam(team: Team): Promise<Player[]> {
+    this._isLoading$.next(true);
+
     const snapshot = await this.firestore
       .collection('players')
       .ref.where('history', 'array-contains', team)
       .get();
+
+    this._isLoading$.next(false);
 
     if (snapshot.empty) {
       return [];
