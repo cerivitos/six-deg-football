@@ -46,5 +46,6 @@ Thumbs.db
 
 .vercel
 .env
+.angular/cache
 test-player-history.json
 test-team-history.json
