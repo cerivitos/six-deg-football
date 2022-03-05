@@ -1,5 +1,8 @@
 <div class="flex flex-col items-center">
-  <div class="grid grid-cols-3 justify-between w-full md:w-2/3 mb-4">
+  <div
+    #topBar
+    class="grid grid-cols-3 justify-between w-full md:w-2/3 mb-4 bg-white fixed md:rounded-md shadow-md"
+  >
     <app-player-card
       [player]="startPlayer"
       *ngIf="startPlayer$ | async as startPlayer; else loading"
@@ -26,6 +29,7 @@
   <div
     *ngIf="(selectionState$ | async) === 'team'; else playerSelect"
     class="w-full md:w-1/2 text-center mb-6"
+    [style.margin-top.px]="topBar.offsetHeight"
   >
     <div *ngIf="playerHistory$ | async as playerHistory; else loading">
       <app-player-panel
@@ -43,7 +47,10 @@
 </div>
 
 <ng-template #playerSelect>
-  <div class="w-full md:w-1/2 text-center mb-6">
+  <div
+    class="w-full md:w-1/2 text-center mb-6"
+    [style.margin-top.px]="topBar.offsetHeight"
+  >
     <div *ngIf="teamHistory$ | async as teamHistory">
       <app-team-panel
         [team]="teamHistory[teamHistory.length - 1]"

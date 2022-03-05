@@ -1,4 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 
 import {
   initializeAppCheck,
@@ -23,6 +29,10 @@ export class GamePageComponent implements OnInit {
     private gameControllerService: GameControllerService,
     @Inject(WINDOW) readonly windowRef: any
   ) {}
+
+  @ViewChild('topBar') topBar: ElementRef | undefined;
+
+  topBarHeight: number = 0;
 
   startPlayer$: Observable<Player | undefined> = new Observable<
     Player | undefined
