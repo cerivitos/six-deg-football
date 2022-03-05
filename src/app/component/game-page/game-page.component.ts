@@ -18,11 +18,38 @@ import { Observable } from 'rxjs';
 import { Team } from 'src/app/model/Team';
 import { convertSec } from 'src/app/util/convertSec';
 import { WINDOW } from '@ng-web-apis/common';
+import {
+  animate,
+  animateChild,
+  query,
+  stagger,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-game-page',
   templateUrl: './game-page.component.html',
   styleUrls: ['./game-page.component.css'],
+  animations: [
+    trigger('playerListAnim', [
+      transition(':enter,:leave', [
+        query('@playerEnterAnim', [stagger(40, [animateChild()])], {
+          optional: true,
+        }),
+      ]),
+      transition(':leave', [animate('40ms ease-out', style({ opacity: 0 }))]),
+    ]),
+    trigger('teamListAnim', [
+      transition(':enter,:leave', [
+        query('@teamEnterAnim', [stagger(40, [animateChild()])], {
+          optional: true,
+        }),
+      ]),
+      transition(':leave', [animate('40ms ease-out', style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class GamePageComponent implements OnInit {
   constructor(

@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { Player } from '../model/Player';
 import { Team } from '../model/Team';
 import { DataService } from './data.service';
+import { WINDOW } from '@ng-web-apis/common';
 
 @Injectable({
   providedIn: 'root',
@@ -76,7 +77,11 @@ export class GameControllerService {
    */
   public readonly teamHistory$ = this._teamHistory$.asObservable();
 
-  constructor(private dataService: DataService, private router: Router) {}
+  constructor(
+    private dataService: DataService,
+    private router: Router,
+    @Inject(WINDOW) readonly windowRef: any
+  ) {}
 
   async initGame(startPlayerId: number, endPlayerId: number) {
     this._startPlayer$.next(await this.dataService.getPlayer(startPlayerId));
@@ -114,6 +119,8 @@ export class GameControllerService {
   async onTeamSelected(team: Team) {
     const players = await this.dataService.getPlayersInTeam(team);
 
+    this.windowRef.self.scrollTo({ top: 0 });
+
     if (players.length > 0) {
       this._teamHistory$.next(this._teamHistory$.getValue().concat(team));
       this._currentPlayerList$.next(players);
@@ -127,6 +134,8 @@ export class GameControllerService {
 
   async onPlayerSelected(player: Player) {
     this._playerHistory$.next(this._playerHistory$.getValue().concat(player));
+
+    this.windowRef.self.scrollTo({ top: 0 });
 
     if (this._checkIfWin(player, this._endPlayer$.getValue()!)) {
       clearInterval(this.timer);

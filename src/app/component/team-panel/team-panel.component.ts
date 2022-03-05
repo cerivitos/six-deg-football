@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Team } from 'src/app/model/Team';
 import { GameControllerService } from 'src/app/service/game-controller.service';
 
@@ -6,6 +7,14 @@ import { GameControllerService } from 'src/app/service/game-controller.service';
   selector: 'app-team-panel',
   templateUrl: './team-panel.component.html',
   styleUrls: ['./team-panel.component.css'],
+  animations: [
+    trigger('teamEnterAnim', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('100ms', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class TeamPanelComponent implements OnInit {
   @Input() team!: Team;

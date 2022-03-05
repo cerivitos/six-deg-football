@@ -2,6 +2,7 @@
   class="p-4 flex items-center justify-between"
   [ngClass]="selectableClassList"
   (click)="!isHeader ? onSelect(player!) : null"
+  @playerEnterAnim
 >
   <div class="flex items-center gap-x-2">
     <img

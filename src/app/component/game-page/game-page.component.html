@@ -1,4 +1,4 @@
-<div class="flex flex-col items-center">
+<div class="flex flex-col items-center overflow-x-hidden">
   <div
     #topBar
     class="grid grid-cols-3 justify-between w-full md:w-2/3 mb-4 bg-white fixed md:rounded-md shadow-md"
@@ -30,6 +30,7 @@
     *ngIf="(selectionState$ | async) === 'team'; else playerSelect"
     class="w-full md:w-1/2 text-center mb-6"
     [style.margin-top.px]="topBar.offsetHeight"
+    @teamListAnim
   >
     <div *ngIf="playerHistory$ | async as playerHistory">
       <app-player-panel
@@ -50,6 +51,7 @@
   <div
     class="w-full md:w-1/2 text-center mb-6"
     [style.margin-top.px]="topBar.offsetHeight"
+    @playerListAnim
   >
     <div *ngIf="teamHistory$ | async as teamHistory">
       <app-team-panel
@@ -58,6 +60,7 @@
       ></app-team-panel>
       <h4 class="mt-4 mb-2">Select player</h4>
     </div>
+
     <app-player-panel
       *ngFor="let player of currentPlayerList$ | async"
       [player]="player"

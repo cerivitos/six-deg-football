@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { trigger, transition, style, animate } from '@angular/animations';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Player } from 'src/app/model/Player';
 import { GameControllerService } from 'src/app/service/game-controller.service';
 
@@ -6,6 +7,14 @@ import { GameControllerService } from 'src/app/service/game-controller.service';
   selector: 'app-player-panel',
   templateUrl: './player-panel.component.html',
   styleUrls: ['./player-panel.component.css'],
+  animations: [
+    trigger('playerEnterAnim', [
+      transition(':enter', [
+        style({ transform: 'translateX(30px)', opacity: 0 }),
+        animate('100ms', style({ transform: 'translateX(0)', opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class PlayerPanelComponent implements OnInit {
   @Input() player: Player | undefined;
