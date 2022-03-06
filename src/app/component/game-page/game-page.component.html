@@ -13,9 +13,11 @@
         class="flex flex-col py-4 justify-center items-center"
         *ngIf="startPlayer$ | async as startPlayer; else middleLoading"
       >
-        <span class="text-xs md:text-sm uppercase text-rose-600">Steps</span>
+        <span class="text-xs font-bold md:text-sm uppercase text-rose-600"
+          >Steps</span
+        >
         <span class="text-xl md:text-3xl font-bold">{{ steps$ | async }}</span>
-        <span class="text-xs md:text-sm uppercase text-rose-600 mt-2"
+        <span class="text-xs md:text-sm font-bold uppercase text-rose-600 mt-2"
           >Time</span
         >
         <span class="text-xl md:text-3xl font-bold">{{
