@@ -1,11 +1,12 @@
 <div class="flex flex-col p-4 items-center text-center">
   <img
+    @enterAnim
     class="object-cover md:h-24 md:w-24 h-14 w-14"
     src="{{ player!.playerImg.replace('_120.png', '_360.png') }}"
     alt="Image of {{ player!.playerName }}"
   />
   <p
-    class="px-2 py-1 leading-tight font-bold md:text-base text-sm line-clamp-2 text-white bg-gradient-to-r from-rose-600 to-fuchsia-700"
+    class="px-2 py-1 leading-tight font-bold md:text-base text-sm line-clamp-2 text-white bg-gradient-to-r from-rose-600 to-fuchsia-700 z-10"
   >
     {{ player!.playerName }}
   </p>
