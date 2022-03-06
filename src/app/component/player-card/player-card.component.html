@@ -1,13 +1,15 @@
-<div class="flex flex-col gap-y-2 p-4 items-center text-center">
+<div class="flex flex-col p-4 items-center text-center">
   <img
     class="object-cover md:h-24 md:w-24 h-14 w-14"
     src="{{ player!.playerImg.replace('_120.png', '_360.png') }}"
     alt="Image of {{ player!.playerName }}"
   />
-  <p class="font-bold md:text-base text-sm line-clamp-2">
+  <p
+    class="px-2 py-1 leading-tight font-bold md:text-base text-sm line-clamp-2 text-white bg-gradient-to-r from-rose-600 to-fuchsia-700"
+  >
     {{ player!.playerName }}
   </p>
-  <div class="flex gap-x-2 items-center">
+  <div class="flex mt-2 gap-x-2 items-center">
     <img
       class="object-cover md:h-8 md:w-8 w-6 h-6"
       src="{{ player!.history[0].teamImg.replace('30.png', '180.png') }}"
