@@ -71,8 +71,8 @@ export class GamePageComponent implements OnInit {
 
   steps$: Observable<number> = new Observable<number>();
   time$: Observable<number> = new Observable<number>();
-  selectionState$: Observable<'team' | 'player'> = new Observable<
-    'team' | 'player'
+  selectionState$: Observable<'team' | 'player' | 'loading'> = new Observable<
+    'team' | 'player' | 'loading'
   >();
 
   teamHistory$: Observable<Team[]> = new Observable<Team[]>();

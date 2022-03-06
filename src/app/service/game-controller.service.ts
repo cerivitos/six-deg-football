@@ -26,8 +26,8 @@ export class GameControllerService {
 
   timer: any;
 
-  private _selectionState$: BehaviorSubject<'team' | 'player'> =
-    new BehaviorSubject<'team' | 'player'>('team');
+  private _selectionState$: BehaviorSubject<'team' | 'player' | 'loading'> =
+    new BehaviorSubject<'team' | 'player' | 'loading'>('team');
   /**
    * Selection state flag used to conditionally toggle between team and player selection lists in GamePageComponent
    * @memberof GameControllerService
@@ -117,9 +117,9 @@ export class GameControllerService {
   }
 
   async onTeamSelected(team: Team) {
-    const players = await this.dataService.getPlayersInTeam(team);
-
+    this._selectionState$.next('loading');
     this.windowRef.self.scrollTo({ top: 0 });
+    const players = await this.dataService.getPlayersInTeam(team);
 
     if (players.length > 0) {
       this._teamHistory$.next(this._teamHistory$.getValue().concat(team));

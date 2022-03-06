@@ -27,46 +27,61 @@
   </div>
 
   <div
-    *ngIf="(selectionState$ | async) === 'team'; else playerSelect"
+    [ngSwitch]="selectionState$ | async"
     class="w-full md:w-1/2 text-center mb-6"
-    [style.margin-top.px]="topBar.offsetHeight"
-    @teamListAnim
   >
-    <div *ngIf="playerHistory$ | async as playerHistory">
-      <app-player-panel
-        [player]="playerHistory[playerHistory.length - 1]"
-        [isHeader]="true"
-      ></app-player-panel>
+    <div
+      *ngSwitchCase="'team'"
+      [style.margin-top.px]="topBar.offsetHeight"
+      @teamListAnim
+    >
+      <div *ngIf="playerHistory$ | async as playerHistory">
+        <app-player-panel
+          [player]="playerHistory[playerHistory.length - 1]"
+          [isHeader]="true"
+        ></app-player-panel>
 
-      <h4 class="mt-4 mb-2">Select team</h4>
-      <app-team-panel
-        *ngFor="let team of playerHistory[playerHistory.length - 1]!.history"
-        [team]="team"
-      ></app-team-panel>
+        <h4 class="mt-4 mb-2">Select team</h4>
+        <app-team-panel
+          *ngFor="let team of playerHistory[playerHistory.length - 1]!.history"
+          [team]="team"
+        ></app-team-panel>
+      </div>
+    </div>
+
+    <div
+      *ngSwitchCase="'player'"
+      [style.margin-top.px]="topBar.offsetHeight"
+      @playerListAnim
+    >
+      <div *ngIf="teamHistory$ | async as teamHistory">
+        <app-team-panel
+          [team]="teamHistory[teamHistory.length - 1]"
+          [isHeader]="true"
+        ></app-team-panel>
+        <h4 class="mt-4 mb-2">Select player</h4>
+      </div>
+
+      <app-player-panel
+        *ngFor="let player of currentPlayerList$ | async"
+        [player]="player"
+      ></app-player-panel>
+    </div>
+
+    <div *ngSwitchCase="'loading'" [style.margin-top.px]="topBar.offsetHeight">
+      <div class="flex flex-col gap-y-4 px-4">
+        <div
+          class="rounded-sm h-8 w-full mt-4 bg-slate-200 animate-pulse"
+        ></div>
+        <h4 class="mt-4 mb-2">Select player</h4>
+        <div
+          *ngFor="let panel of [].constructor(10)"
+          class="rounded-sm h-8 w-full bg-slate-200 animate-pulse"
+        ></div>
+      </div>
     </div>
   </div>
 </div>
-
-<ng-template #playerSelect>
-  <div
-    class="w-full md:w-1/2 text-center mb-6"
-    [style.margin-top.px]="topBar.offsetHeight"
-    @playerListAnim
-  >
-    <div *ngIf="teamHistory$ | async as teamHistory">
-      <app-team-panel
-        [team]="teamHistory[teamHistory.length - 1]"
-        [isHeader]="true"
-      ></app-team-panel>
-      <h4 class="mt-4 mb-2">Select player</h4>
-    </div>
-
-    <app-player-panel
-      *ngFor="let player of currentPlayerList$ | async"
-      [player]="player"
-    ></app-player-panel>
-  </div>
-</ng-template>
 
 <ng-template #playerLoading>
   <div class="flex flex-col gap-y-4 px-2 py-6 justify-center items-center">
@@ -82,14 +97,5 @@
   <div class="flex flex-col gap-y-4 p-2 justify-center items-center">
     <div class="rounded-sm md:w-20 h-6 w-12 bg-slate-200 animate-pulse"></div>
     <div class="rounded-sm md:w-20 h-6 w-12 bg-slate-200 animate-pulse"></div>
-  </div>
-</ng-template>
-
-<ng-template #listLoading>
-  <div class="flex flex-col gap-y-4 mt-4 px-4">
-    <div
-      *ngFor="let panel of [].constructor(10)"
-      class="rounded-sm h-10 w-full bg-slate-200 animate-pulse"
-    ></div>
   </div>
 </ng-template>
