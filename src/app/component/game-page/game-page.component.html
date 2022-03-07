@@ -10,17 +10,21 @@
       ></app-player-card>
 
       <div
-        class="flex flex-col py-4 justify-center items-center"
+        class="flex flex-col py-4 justify-center items-center text-center"
         *ngIf="startPlayer$ | async as startPlayer; else middleLoading"
       >
-        <span class="text-xs font-bold md:text-sm uppercase text-rose-600"
+        <span
+          class="text-xs font-bold md:text-sm uppercase text-fuchsia-700 px-2 py-1"
           >Steps</span
         >
-        <span class="text-xl md:text-3xl font-bold">{{ steps$ | async }}</span>
-        <span class="text-xs md:text-sm font-bold uppercase text-rose-600 mt-2"
+        <span class="text-xl md:text-3xl font-bold px-2">{{
+          steps$ | async
+        }}</span>
+        <span
+          class="text-xs md:text-sm font-bold uppercase text-fuchsia-700 px-2 py-1 mt-2"
           >Time</span
         >
-        <span class="text-xl md:text-3xl font-bold">{{
+        <span class="text-xl md:text-3xl font-bold px-2">{{
           convertSec(time$ | async)
         }}</span>
       </div>
@@ -47,7 +51,7 @@
           [isHeader]="true"
         ></app-player-panel>
 
-        <h4 class="mt-4 mb-2 text-rose-700">Select team</h4>
+        <h4 class="mt-4 mb-2 text-fuchsia-700">Select team</h4>
         <app-team-panel
           *ngFor="let team of playerHistory[playerHistory.length - 1]!.history"
           [team]="team"
@@ -65,7 +69,7 @@
           [team]="teamHistory[teamHistory.length - 1]"
           [isHeader]="true"
         ></app-team-panel>
-        <h4 class="mt-4 mb-2 text-rose-700">Select player</h4>
+        <h4 class="mt-4 mb-2 text-fuchsia-700">Select player</h4>
       </div>
 
       <app-player-panel
@@ -79,7 +83,7 @@
         <div
           class="rounded-sm h-8 w-full mt-4 bg-slate-200 animate-pulse"
         ></div>
-        <h4 class="mt-4 mb-2 text-rose-700">Select player</h4>
+        <h4 class="mt-4 mb-2 text-fuchsia-700">Select player</h4>
         <div
           *ngFor="let panel of [].constructor(10)"
           class="rounded-sm h-8 w-full bg-slate-200 animate-pulse"
