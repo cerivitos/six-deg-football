@@ -42,7 +42,7 @@ export class NameCarouselComponent implements OnInit {
     'mane',
     'ederson',
     'pedro',
-    'de jong',
+    'nakata',
   ];
 
   ngOnInit(): void {
