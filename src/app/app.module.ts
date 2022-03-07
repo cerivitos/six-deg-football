@@ -10,9 +10,10 @@ import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { StartPageComponent } from './component/start-page/start-page.component';
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
+import { NameCarouselComponent } from './component/name-carousel/name-carousel.component';
 
 @NgModule({
-  declarations: [AppComponent, StartPageComponent, PageNotFoundComponent],
+  declarations: [AppComponent, StartPageComponent, PageNotFoundComponent, NameCarouselComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
