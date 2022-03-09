@@ -1,5 +1,5 @@
 <div
-  class="p-4 flex items-center justify-between select-none"
+  class="px-4 py-2 flex items-center justify-between select-none"
   [ngClass]="selectableClassList"
   (click)="isHeader ? null : onSelect(team)"
   @teamEnterAnim
@@ -7,7 +7,7 @@
   <div class="flex items-center gap-x-2">
     <img
       src="{{ team!.teamImg.replace('30.png', '90.png') }}"
-      class="object-cover md:h-8 md:w-8 w-6 h-6"
+      class="object-cover md:h-12 md:w-12 w-10 h-10"
       onerror="this.src='https://cdn.sofifa.net/teams/notfound_120.png'"
     />
     <span class="md:text-base text-sm text-left line-clamp-2 text-ellipsis">{{
