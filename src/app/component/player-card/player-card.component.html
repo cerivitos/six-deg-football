@@ -4,6 +4,7 @@
     class="object-cover md:h-24 md:w-24 h-14 w-14"
     src="{{ player!.playerImg.replace('_120.png', '_360.png') }}"
     alt="Image of {{ player!.playerName }}"
+    onerror="this.src='https://cdn.sofifa.net/players/266/360/22_120.png'"
   />
   <p
     class="px-2 py-1 leading-tight font-bold md:text-base text-sm line-clamp-2 text-white bg-gradient-to-r to-fuchsia-600 from-purple-600 via-fuchsia-700 z-10 w-full"
