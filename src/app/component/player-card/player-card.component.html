@@ -6,7 +6,7 @@
     alt="Image of {{ player!.playerName }}"
   />
   <p
-    class="px-2 py-1 leading-tight font-bold md:text-base text-sm line-clamp-2 text-white bg-gradient-to-r to-fuchsia-600 from-purple-600 via-fuchsia-700 z-10"
+    class="px-2 py-1 leading-tight font-bold md:text-base text-sm line-clamp-2 text-white bg-gradient-to-r to-fuchsia-600 from-purple-600 via-fuchsia-700 z-10 w-full"
   >
     {{ player!.playerName }}
   </p>
@@ -16,7 +16,7 @@
       src="{{ player!.history[0].teamImg.replace('30.png', '180.png') }}"
       onerror="this.src='https://cdn.sofifa.net/teams/notfound_120.png'"
     />
-    <p class="md:text-sm text-xs line-clamp-2 text-left">
+    <p class="md:text-sm text-xs line-clamp-2 text-left text-ellipsis">
       {{ player!.history[0].teamName }}
     </p>
   </div>
