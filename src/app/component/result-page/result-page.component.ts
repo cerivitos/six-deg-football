@@ -5,6 +5,7 @@ import { GameControllerService } from 'src/app/service/game-controller.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { convertSec } from 'src/app/util/convertSec';
 import { environment } from 'src/environments/environment';
+import { ShareService } from 'src/app/service/share.service';
 
 @Component({
   selector: 'app-result-page',
@@ -17,7 +18,10 @@ export class ResultPageComponent implements OnInit {
   teamHistory$: Observable<Team[]> = new Observable<Team[]>();
   playerHistory$: Observable<Player[]> = new Observable<Player[]>();
 
-  constructor(private gameControllerService: GameControllerService) {}
+  constructor(
+    private gameControllerService: GameControllerService,
+    private shareService: ShareService
+  ) {}
 
   ngOnInit(): void {
     if (environment.production) {
@@ -70,6 +74,6 @@ export class ResultPageComponent implements OnInit {
   }
 
   share() {
-    console.log('share');
+    this.shareService.shareImg();
   }
 }

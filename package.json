@@ -11,6 +11,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~13.2.5",
+    "@angular/cdk": "^13.2.5",
     "@angular/common": "~13.2.5",
     "@angular/compiler": "~13.2.5",
     "@angular/core": "~13.2.5",
@@ -25,6 +26,7 @@
     "dotenv": "^16.0.0",
     "firebase": "^9.6.7",
     "firebase-tools": "^10.2.1",
+    "html2canvas": "^1.4.1",
     "rxfire": "^6.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
