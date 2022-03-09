@@ -2,88 +2,57 @@ import { Injectable } from '@angular/core';
 import { isMobile } from '../util/isMobile';
 import { GameControllerService } from './game-controller.service';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { tap } from 'rxjs/operators';
-import html2canvas from 'html2canvas';
+import { take } from 'rxjs/operators';
+import { convertSec } from '../util/convertSec';
+import { HotToastService } from '@ngneat/hot-toast';
+import { Player } from '../model/Player';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShareService {
+  startPlayer: Player | undefined;
+  endPlayer: Player | undefined;
+  steps: number = 0;
+  time: number = 0;
+
   constructor(
     private gameControllerService: GameControllerService,
-    private clipboard: Clipboard
-  ) {}
+    private clipboard: Clipboard,
+    private toast: HotToastService
+  ) {
+    this.gameControllerService.startPlayer$
+      .pipe(take(1))
+      .subscribe((player) => (this.startPlayer = player!));
 
-  private async _createCanvasImg(): Promise<HTMLCanvasElement> {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const width = 640;
-    const height = 640;
-    canvas.width = width;
-    canvas.height = height;
-    ctx!.fillStyle = '#fff';
-    ctx!.fillRect(0, 0, width, height);
+    this.gameControllerService.endPlayer$
+      .pipe(take(1))
+      .subscribe((player) => (this.endPlayer = player!));
 
-    let startPlayer: HTMLImageElement = new Image();
-    let endPlayer: HTMLImageElement = new Image();
-    // startPlayer.crossOrigin = 'Anonymous';
-    // endPlayer.crossOrigin = 'Anonymous';
+    this.gameControllerService.steps$
+      .pipe(take(1))
+      .subscribe((steps) => (this.steps = steps));
 
-    const capture = await html2canvas(document.querySelector('#capture')!, {
-      allowTaint: false,
-    });
-    const img = capture.toDataURL('image/png');
-    startPlayer.src = img;
-    await startPlayer.decode();
-    ctx?.drawImage(startPlayer, 0, 0, 240, 240);
-
-    // this.gameControllerService.startPlayer$
-    //   .pipe(
-    //     tap(
-    //       (player) =>
-    //         (startPlayer.src = player!.playerImg.replace('30.png', '90.png'))
-    //     )
-    //   )
-    //   .subscribe();
-    // this.gameControllerService.endPlayer$
-    //   .pipe(
-    //     tap(
-    //       (player) =>
-    //         (endPlayer.src = player!.playerImg.replace('30.png', '90.png'))
-    //     )
-    //   )
-    //   .subscribe();
-
-    // await startPlayer.decode();
-    // ctx?.drawImage(startPlayer, 0, height, 240, 240);
-
-    // await endPlayer.decode();
-    // ctx?.drawImage(endPlayer, width - 240, height, 240, 240);
-
-    return canvas;
+    this.gameControllerService.time$
+      .pipe(take(1))
+      .subscribe((time) => (this.time = time));
   }
 
-  private _convertToPng(canvas: HTMLCanvasElement): string {
-    return canvas.toDataURL('image/png');
-  }
+  async share(): Promise<void> {
+    const shareText = `${this.startPlayer?.playerName} ➡️${this.steps} ${
+      this.endPlayer?.playerName
+    }\n\n🕐${convertSec(this.time)}\n\nhttps://footy.notmydayjob.fyi/game/${
+      this.startPlayer?.playerId
+    }_${this.endPlayer?.playerId}`;
 
-  async shareImg(): Promise<void> {
-    const canvas = await this._createCanvasImg();
-    const img = this._convertToPng(canvas);
+    if (isMobile()) {
+      await navigator.share({
+        text: shareText,
+      });
+    } else {
+      this.clipboard.copy(shareText);
 
-    //if (isMobile()) {
-    const response = await fetch(img);
-    const blob = await response.blob();
-    const file = new File([blob], 'share.png', { type: 'image/png' });
-    const shareData = {
-      files: [file],
-    };
-
-    // if (navigator.canShare()) {
-    navigator.share(shareData);
-    //}
-    //} else {
-    //  this.clipboard.copy('Text copied');
-    // }
+      this.toast.success('Copied!');
+    }
   }
 }

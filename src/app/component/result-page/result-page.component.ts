@@ -74,6 +74,6 @@ export class ResultPageComponent implements OnInit {
   }
 
   share() {
-    this.shareService.shareImg();
+    this.shareService.share();
   }
 }

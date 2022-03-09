@@ -1,3 +1,4 @@
+import { HotToastModule } from '@ngneat/hot-toast';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,7 +14,12 @@ import { PageNotFoundComponent } from './component/page-not-found/page-not-found
 import { NameCarouselComponent } from './component/name-carousel/name-carousel.component';
 
 @NgModule({
-  declarations: [AppComponent, StartPageComponent, PageNotFoundComponent, NameCarouselComponent],
+  declarations: [
+    AppComponent,
+    StartPageComponent,
+    PageNotFoundComponent,
+    NameCarouselComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -21,6 +27,10 @@ import { NameCarouselComponent } from './component/name-carousel/name-carousel.c
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),
     AppCheckModule,
+    HotToastModule.forRoot({
+      theme: 'snackbar',
+      position: 'bottom-center',
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
