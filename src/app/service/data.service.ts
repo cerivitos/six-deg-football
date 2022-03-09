@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Player } from '../model/Player';
 import { Team } from '../model/Team';
 
@@ -8,9 +9,43 @@ import { Team } from '../model/Team';
   providedIn: 'root',
 })
 export class DataService {
-  constructor(private firestore: AngularFirestore) {}
+  constructor(private firestore: AngularFirestore, private http: HttpClient) {}
 
-  async getPlayer(playerId: number): Promise<Player | undefined> {
+  getTrendingPlayerId(): Observable<number> {
+    return this.http.get<number>('/api/fetch-trending');
+  }
+
+  async generateStartAndEndPlayers(
+    startPlayerId: number
+  ): Promise<Player[] | undefined> {
+    const startPlayer = await this._getPlayer(startPlayerId);
+
+    if (startPlayer) {
+      let history = startPlayer.history;
+      const walks = Math.floor(Math.random() * 10);
+      let endPlayer;
+
+      for (let i = 0; i < walks; i++) {
+        const randomTeam = history[Math.floor(Math.random() * history.length)];
+        const players = await this.getPlayersInTeam(randomTeam);
+        const randomPlayer =
+          players[Math.floor(Math.random() * players.length)];
+        history = randomPlayer.history;
+
+        if (i === walks - 1) {
+          endPlayer = randomPlayer;
+
+          return [startPlayer, endPlayer];
+        }
+      }
+    } else {
+      return undefined;
+    }
+
+    return undefined;
+  }
+
+  private async _getPlayer(playerId: number): Promise<Player | undefined> {
     const snapshot = await this.firestore.doc(`players/${playerId}`).ref.get();
 
     if (snapshot.exists) {

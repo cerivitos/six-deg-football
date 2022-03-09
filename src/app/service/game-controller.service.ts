@@ -1,10 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Player } from '../model/Player';
 import { Team } from '../model/Team';
 import { DataService } from './data.service';
 import { WINDOW } from '@ng-web-apis/common';
+import { take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -83,23 +84,34 @@ export class GameControllerService {
     @Inject(WINDOW) readonly windowRef: any
   ) {}
 
-  async initGame(startPlayerId: number, endPlayerId: number) {
-    this._startPlayer$.next(await this.dataService.getPlayer(startPlayerId));
-    this._endPlayer$.next(await this.dataService.getPlayer(endPlayerId));
+  async initGame() {
+    this.dataService.getTrendingPlayerId().subscribe(async (id) => {
+      const players = await this.dataService.generateStartAndEndPlayers(id!);
 
-    if (this._startPlayer$.getValue() && this._endPlayer$.getValue()) {
-      this._steps$.next(0);
-      this._time$.next(0);
-      this._playerHistory$.next([this._startPlayer$.getValue()!]);
-      this._teamHistory$.next([]);
-      this._selectionState$.next('team');
+      if (players) {
+        this._startPlayer$.next(players[0]);
+        this._endPlayer$.next(players[1]);
 
-      this.timer = this._startTimer();
-    } else {
-      throw new Error(
-        `Player not found: ${this._startPlayer$.getValue()} or ${this._endPlayer$.getValue()}`
-      );
-    }
+        this._steps$.next(0);
+        this._time$.next(0);
+        this._playerHistory$.next([this._startPlayer$.getValue()!]);
+        this._teamHistory$.next([]);
+        this._selectionState$.next('team');
+
+        this.timer = this._startTimer();
+      }
+    });
+  }
+
+  resetGame() {
+    this._startPlayer$.next(undefined);
+    this._endPlayer$.next(undefined);
+
+    this._steps$.next(0);
+    this._time$.next(0);
+    this._playerHistory$.next([]);
+    this._teamHistory$.next([]);
+    this._selectionState$.next('team');
   }
 
   private _startTimer(): any {

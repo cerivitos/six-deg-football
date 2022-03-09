@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AppCheckModule } from '@angular/fire/app-check';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,6 +32,7 @@ import { NameCarouselComponent } from './component/name-carousel/name-carousel.c
       theme: 'snackbar',
       position: 'bottom-center',
     }),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

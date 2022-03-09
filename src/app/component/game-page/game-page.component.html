@@ -46,16 +46,20 @@
       @teamListAnim
     >
       <div *ngIf="playerHistory$ | async as playerHistory">
-        <app-player-panel
-          [player]="playerHistory[playerHistory.length - 1]"
-          [isHeader]="true"
-        ></app-player-panel>
+        <div *ngIf="playerHistory.length > 0">
+          <app-player-panel
+            [player]="playerHistory[playerHistory.length - 1]"
+            [isHeader]="true"
+          ></app-player-panel>
 
-        <h4 class="mt-4 mb-2 text-fuchsia-700">Select team</h4>
-        <app-team-panel
-          *ngFor="let team of playerHistory[playerHistory.length - 1]!.history"
-          [team]="team"
-        ></app-team-panel>
+          <h4 class="mt-4 mb-2 text-fuchsia-700">Select team</h4>
+          <app-team-panel
+            *ngFor="
+              let team of playerHistory[playerHistory.length - 1]!.history
+            "
+            [team]="team"
+          ></app-team-panel>
+        </div>
       </div>
     </div>
 
