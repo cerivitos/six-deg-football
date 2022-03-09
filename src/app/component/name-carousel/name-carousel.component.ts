@@ -42,12 +42,16 @@ export class NameCarouselComponent implements OnInit {
     'mane',
     'ederson',
     'pedro',
-    'nakata',
+    'benzema',
+    'marcelo',
+    'kaka',
+    'coutinho',
+    'modric',
   ];
 
   ngOnInit(): void {
     let index1 = Math.floor(Math.random() * this.names.length);
-    let index2 = Math.max(index1 + 1, this.names.length - 1);
+    let index2 = Math.min(index1 + 1, this.names.length - 1);
 
     this.name1 = this.names[index1];
     this.name2 = this.names[index2];
