@@ -1,4 +1,12 @@
-<div class="px-4 py-2 flex items-center justify-between" @resultEnterAnim>
+<div
+  class="px-4 py-2 flex items-center justify-between"
+  ngClass="{{
+    showBackground
+      ? 'bg-gradient-to-r text-white font-bold from-emerald-500 via-teal-500 to-green-500 rounded-lg'
+      : 'bg-transparent'
+  }}"
+  @resultEnterAnim
+>
   <div class="flex basis-3/4">
     <img
       id="capture"
@@ -7,7 +15,7 @@
       alt="Image of {{ playerName }}"
     />
     <span
-      class="mx-2 justify-self-start self-center text-xs md:text-base overflow-ellipsis line-clamp-2"
+      class="mx-2 justify-self-start self-center text-sm md:text-base overflow-ellipsis line-clamp-2"
       >{{ playerName }}</span
     >
   </div>

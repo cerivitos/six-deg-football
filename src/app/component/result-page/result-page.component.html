@@ -1,6 +1,6 @@
 <div class="p-4 flex flex-col items-center">
   <div class="justify-center items-center w-full md:w-2/3 flex-col flex">
-    <h2 class="mb-2 flex items-center gap-x-2 w-full justify-center">
+    <h2 class="mb-2 mt-8 flex items-center gap-x-2 w-full justify-center">
       <h4 class="text-fuchsia-700">Steps</h4>
       {{ steps$ | async }}
     </h2>
@@ -32,11 +32,9 @@
         </span>
         <app-result-panel
           class="w-full"
-          ngClass="{{
+          [showBackground]="
             p === 0 || p === histories.playerHistory!.length - 1
-              ? 'bg-gradient-to-r text-white font-bold from-emerald-500 via-teal-500 to-green-500 rounded-lg'
-              : 'bg-transparent'
-          }}"
+          "
           [playerName]="player.playerName"
           [playerImg]="player.playerImg"
           [teamName]="histories.teamHistory![p]?.teamName"

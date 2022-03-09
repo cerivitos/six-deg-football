@@ -8,8 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
   animations: [
     trigger('resultEnterAnim', [
       transition(':enter', [
-        style({ opacity: 0 }),
-        animate('180ms', style({ opacity: 1 })),
+        style({ filter: 'grayscale(80%)', opacity: 0.8 }),
+        animate('160ms', style({ filter: 'grayscale(0%)', opacity: 1 })),
       ]),
     ]),
   ],
@@ -20,6 +20,7 @@ export class ResultPanelComponent implements OnInit {
   @Input() teamName: string | undefined;
   @Input() teamImg: string | undefined;
   @Input() season: string | undefined;
+  @Input() showBackground: boolean = false;
 
   constructor() {}
 
