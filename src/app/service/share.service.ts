@@ -26,39 +26,39 @@ export class ShareService {
 
     let startPlayer: HTMLImageElement = new Image();
     let endPlayer: HTMLImageElement = new Image();
-    startPlayer.crossOrigin = 'Anonymous';
-    endPlayer.crossOrigin = 'Anonymous';
+    // startPlayer.crossOrigin = 'Anonymous';
+    // endPlayer.crossOrigin = 'Anonymous';
 
-    // const capture = await html2canvas(document.querySelector('#capture')!, {
-    //   allowTaint: false,
-    // });
-    // const img = capture.toDataURL('image/png');
-    // startPlayer.src = img;
-    // await startPlayer.decode();
-    // ctx?.drawImage(startPlayer, 0, 0, 240, 240);
-
-    this.gameControllerService.startPlayer$
-      .pipe(
-        tap(
-          (player) =>
-            (startPlayer.src = player!.playerImg.replace('30.png', '90.png'))
-        )
-      )
-      .subscribe();
-    this.gameControllerService.endPlayer$
-      .pipe(
-        tap(
-          (player) =>
-            (endPlayer.src = player!.playerImg.replace('30.png', '90.png'))
-        )
-      )
-      .subscribe();
-
+    const capture = await html2canvas(document.querySelector('#capture')!, {
+      allowTaint: false,
+    });
+    const img = capture.toDataURL('image/png');
+    startPlayer.src = img;
     await startPlayer.decode();
-    ctx?.drawImage(startPlayer, 0, height, 240, 240);
+    ctx?.drawImage(startPlayer, 0, 0, 240, 240);
 
-    await endPlayer.decode();
-    ctx?.drawImage(endPlayer, width - 240, height, 240, 240);
+    // this.gameControllerService.startPlayer$
+    //   .pipe(
+    //     tap(
+    //       (player) =>
+    //         (startPlayer.src = player!.playerImg.replace('30.png', '90.png'))
+    //     )
+    //   )
+    //   .subscribe();
+    // this.gameControllerService.endPlayer$
+    //   .pipe(
+    //     tap(
+    //       (player) =>
+    //         (endPlayer.src = player!.playerImg.replace('30.png', '90.png'))
+    //     )
+    //   )
+    //   .subscribe();
+
+    // await startPlayer.decode();
+    // ctx?.drawImage(startPlayer, 0, height, 240, 240);
+
+    // await endPlayer.decode();
+    // ctx?.drawImage(endPlayer, width - 240, height, 240, 240);
 
     return canvas;
   }
