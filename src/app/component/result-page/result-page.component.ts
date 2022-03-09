@@ -6,11 +6,27 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { convertSec } from 'src/app/util/convertSec';
 import { environment } from 'src/environments/environment';
 import { ShareService } from 'src/app/service/share.service';
+import {
+  animateChild,
+  query,
+  stagger,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-result-page',
   templateUrl: './result-page.component.html',
   styleUrls: ['./result-page.component.css'],
+  animations: [
+    trigger('resultListAnim', [
+      transition(':enter', [
+        query('@resultEnterAnim', [stagger(80, [animateChild()])], {
+          optional: true,
+        }),
+      ]),
+    ]),
+  ],
 })
 export class ResultPageComponent implements OnInit {
   steps$: Observable<number> = new Observable<number>();
@@ -24,49 +40,10 @@ export class ResultPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (environment.production) {
-      this.steps$ = this.gameControllerService.steps$;
-      this.time$ = this.gameControllerService.time$;
-      this.teamHistory$ = this.gameControllerService.teamHistory$;
-      this.playerHistory$ = this.gameControllerService.playerHistory$;
-    } else {
-      this.steps$ = new BehaviorSubject<number>(13);
-      this.time$ = new BehaviorSubject<number>(240);
-
-      let testTeamHistory: Team[] = [];
-      this._populateTestTeamData().then((data) => {
-        testTeamHistory = data;
-        this.teamHistory$ = new BehaviorSubject<Team[]>(testTeamHistory);
-      });
-
-      let testPlayerHistory: Player[] = [];
-      this._populateTestPlayerData().then((data) => {
-        testPlayerHistory = data;
-        this.playerHistory$ = new BehaviorSubject<Player[]>(testPlayerHistory);
-      });
-    }
-  }
-
-  private async _populateTestTeamData(): Promise<Team[]> {
-    const response = await fetch('../../assets/test-team-history.json');
-    const testTeamHistoryJson = await response.json();
-    let testTeamHistory: Team[] = [];
-    for (const team of testTeamHistoryJson) {
-      testTeamHistory.push(team as Team);
-    }
-
-    return testTeamHistory;
-  }
-
-  private async _populateTestPlayerData(): Promise<Player[]> {
-    const response = await fetch('../../assets/test-player-history.json');
-    const testPlayerHistoryJson = await response.json();
-    let testPlayerHistory: Player[] = [];
-    for (const player of testPlayerHistoryJson) {
-      testPlayerHistory.push(player as Player);
-    }
-
-    return testPlayerHistory;
+    this.steps$ = this.gameControllerService.steps$;
+    this.time$ = this.gameControllerService.time$;
+    this.teamHistory$ = this.gameControllerService.teamHistory$;
+    this.playerHistory$ = this.gameControllerService.playerHistory$;
   }
 
   convertSec(s: number | null): string {
