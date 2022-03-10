@@ -22,7 +22,7 @@ export class DataService {
 
     if (startPlayer) {
       let history = startPlayer.history;
-      const walks = Math.floor(Math.random() * 8);
+      const walks = Math.floor(Math.random() * 4);
       let endPlayer;
 
       for (let i = 0; i < walks; i++) {
