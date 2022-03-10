@@ -7,9 +7,11 @@ import { convertSec } from 'src/app/util/convertSec';
 import { environment } from 'src/environments/environment';
 import { ShareService } from 'src/app/service/share.service';
 import {
+  animate,
   animateChild,
   query,
   stagger,
+  style,
   transition,
   trigger,
 } from '@angular/animations';
@@ -24,6 +26,21 @@ import {
         query('@resultEnterAnim', [stagger(80, [animateChild()])], {
           optional: true,
         }),
+      ]),
+    ]),
+    trigger('scoreAnim', [
+      transition(':enter', [
+        style({ transform: 'scale(5)', opacity: 0.7 }),
+        animate('160ms ease-out', style({ transform: 'scale(1)', opacity: 1 })),
+      ]),
+    ]),
+    trigger('timeAnim', [
+      transition(':enter', [
+        style({ transform: 'scale(4.8)', opacity: 0.7 }),
+        animate(
+          '160ms 30ms ease-in',
+          style({ transform: 'scale(1)', opacity: 1 })
+        ),
       ]),
     ]),
   ],

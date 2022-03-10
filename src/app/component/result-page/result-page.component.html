@@ -1,10 +1,13 @@
 <div class="p-4 flex flex-col items-center">
   <div class="justify-center items-center w-full md:w-2/3 flex-col flex">
-    <h2 class="mb-2 mt-8 flex items-center gap-x-2 w-full justify-center">
+    <h2
+      class="mb-2 mt-8 flex items-center gap-x-2 w-full justify-center"
+      @scoreAnim
+    >
       <h4 class="text-fuchsia-700">Steps</h4>
       {{ steps$ | async }}
     </h2>
-    <h2 class="mb-8 flex items-center gap-x-2 w-full justify-center">
+    <h2 class="mb-8 flex items-center gap-x-2 w-full justify-center" @timeAnim>
       <h4 class="text-fuchsia-700">Time</h4>
       {{ convertSec(time$ | async) }}
     </h2>

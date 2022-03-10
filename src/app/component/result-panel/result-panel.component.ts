@@ -8,8 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
   animations: [
     trigger('resultEnterAnim', [
       transition(':enter', [
-        style({ filter: 'grayscale(80%)', opacity: 0.8 }),
-        animate('160ms', style({ filter: 'grayscale(0%)', opacity: 1 })),
+        style({ transform: 'translateY(-30px)', opacity: 0 }),
+        animate('160ms', style({ transform: 'translateY(0)', opacity: 1 })),
       ]),
     ]),
   ],
