@@ -36,3 +36,15 @@ button.primary {
 button.secondary {
   @apply px-4 py-2 rounded-lg text-fuchsia-600 font-bold bg-fuchsia-200 hover:bg-fuchsia-300 transition-all duration-300 active:bg-fuchsia-400 hover:ring-4 hover:ring-fuchsia-300 disabled:bg-stone-500;
 }
+
+button.fab {
+  @apply fixed md:right-48 right-8 bottom-8 h-16 w-16 bg-emerald-500 text-white text-center text-2xl font-bold  active:bg-emerald-600;
+  border-radius: 12px;
+  transition: all 120ms ease-out;
+}
+
+button.fab:hover {
+  border-radius: 999px;
+  filter: drop-shadow(0px 0.35rem 0.5rem rgba(0, 0, 0, 0.35));
+  transition: all 180ms ease-in;
+}

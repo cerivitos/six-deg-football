@@ -120,4 +120,18 @@ export class GamePageComponent implements OnInit {
   convertSec(s: number | null): string {
     return convertSec(s);
   }
+
+  reset() {
+    this.gameControllerService.resetGame();
+
+    if (!this.router.url.includes('/game')) {
+      const playerIds: number[] = this.router.url
+        .slice(1)
+        .split('-')
+        .map((id) => parseInt(id));
+      this.initGame(playerIds[0], playerIds[1]);
+    } else {
+      this.initGame();
+    }
+  }
 }
