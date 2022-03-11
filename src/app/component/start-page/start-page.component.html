@@ -19,24 +19,27 @@
       Start Game
     </button>
     <div
-      class="mb-12 flex gap-x-8 md:w-1/3 w-full items-center justify-between"
+      class="mb-12 flex gap-x-2 md:w-1/3 w-full items-center justify-between"
     >
-      <div class="flex basis-3/4 flex-col gap-y-2 justify-around items-end">
-        <span class="line-clamp-1 ellipsis"
-          ><span class="mr-2 pill">Start with</span>
-          {{ customStartPlayerName }}</span
-        >
-        <span
-          ><span class="mr-2 pill">Difficulty</span
-          ><span [ngSwitch]="difficulty" class="text-amber-400">
-            <span *ngSwitchCase="1">🏆 🞅 🞅</span>
-            <span *ngSwitchCase="2">🏆 🏆 🞅</span>
-            <span *ngSwitchCase="3">🏆 🏆 🏆</span>
-          </span></span
-        >
-      </div>
-
-      <button class="secondary basis-1/4">Settings</button>
+      <button
+        class="line-clamp-1 ellipsis secondary w-1/2 font-normal"
+        routerLink="/settings"
+      >
+        <span class="mr-2 pill">Start</span>
+        {{
+          (customStartPlayer$ | async) == undefined
+            ? "Random"
+            : (customStartPlayer$ | async)!["playerName"]
+        }}
+      </button>
+      <button class="w-1/2 secondary" (click)="setDifficulty()">
+        <span class="mr-2 pill">Difficulty</span
+        ><span [ngSwitch]="difficulty$ | async" class="text-amber-400">
+          <span *ngSwitchCase="1">🏆 🞅 🞅</span>
+          <span *ngSwitchCase="2">🏆 🏆 🞅</span>
+          <span *ngSwitchCase="3">🏆 🏆 🏆</span>
+        </span>
+      </button>
     </div>
   </main>
 

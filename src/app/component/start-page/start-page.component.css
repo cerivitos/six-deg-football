@@ -12,5 +12,5 @@
 }
 
 .pill {
-  @apply bg-stone-200 text-stone-600 font-semibold px-2 py-1 rounded-md text-sm;
+  @apply bg-purple-300 text-purple-600 font-semibold px-2 py-1 rounded-md text-sm;
 }

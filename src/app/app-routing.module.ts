@@ -11,6 +11,11 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'settings',
+    loadChildren: () =>
+      import('./module/settings/settings.module').then((m) => m.SettingsModule),
+  },
+  {
     path: 'game',
     loadChildren: () =>
       import('./module/game/game.module').then((m) => m.GameModule),

@@ -1,7 +1,11 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
+import { Observable } from 'rxjs';
+
 import { take } from 'rxjs/operators';
+import { Player } from 'src/app/model/Player';
+import { SettingsService } from 'src/app/service/settings.service';
 
 @Component({
   selector: 'app-start-page',
@@ -10,30 +14,27 @@ import { take } from 'rxjs/operators';
 })
 export class StartPageComponent implements OnInit {
   version: string = '';
-  customStartPlayerName: string | undefined;
-  difficulty: number = 1;
+  customStartPlayer$: Observable<Player | undefined> = new Observable<
+    Player | undefined
+  >();
+  difficulty$: Observable<number> = new Observable<number>();
 
   constructor(
     private http: HttpClient,
-    @Inject(LOCAL_STORAGE) readonly localStorage: Storage
+    private settingsService: SettingsService
   ) {}
 
   ngOnInit(): void {
-    const customStartPlayer = this.localStorage.getItem('customStartPlayer');
-    if (customStartPlayer) {
-      this.customStartPlayerName = JSON.parse(customStartPlayer)['playerName'];
-    } else {
-      this.customStartPlayerName = 'Random';
-    }
-
-    const savedDifficulty = this.localStorage.getItem('difficulty');
-    if (savedDifficulty) {
-      this.difficulty = parseInt(savedDifficulty);
-    }
+    this.customStartPlayer$ = this.settingsService.customStartPlayer$;
+    this.difficulty$ = this.settingsService.difficulty$;
 
     this.http
       .get<string>('/api/query-sha')
       .pipe(take(1))
       .subscribe((sha) => (this.version = sha));
+  }
+
+  setDifficulty() {
+    this.settingsService.setDifficulty();
   }
 }
