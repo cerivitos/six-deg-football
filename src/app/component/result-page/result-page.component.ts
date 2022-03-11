@@ -37,9 +37,9 @@ import { environment } from 'src/environments/environment';
     ]),
     trigger('timeAnim', [
       transition(':enter', [
-        style({ transform: 'scale(4.8)', opacity: 0.7 }),
+        style({ transform: 'scale(4.8)', opacity: 0 }),
         animate(
-          '160ms 30ms ease-in',
+          '160ms 80ms ease-in',
           style({ transform: 'scale(1)', opacity: 1 })
         ),
       ]),

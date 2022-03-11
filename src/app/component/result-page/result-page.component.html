@@ -1,16 +1,16 @@
 <div class="p-4 flex flex-col items-center">
   <div class="justify-center items-center w-full md:w-2/3 flex-col flex">
-    <h2
+    <h1
       class="mb-2 mt-8 flex items-center gap-x-2 w-full justify-center"
       @scoreAnim
     >
-      <h4 class="text-fuchsia-700">Steps</h4>
+      <h2 class="text-fuchsia-700 uppercase">Steps</h2>
       {{ steps$ | async }}
-    </h2>
-    <h2 class="mb-8 flex items-center gap-x-2 w-full justify-center" @timeAnim>
-      <h4 class="text-fuchsia-700">Time</h4>
+    </h1>
+    <h1 class="mb-8 flex items-center gap-x-2 w-full justify-center" @timeAnim>
+      <h2 class="text-fuchsia-700 uppercase">Time</h2>
       {{ convertSec(time$ | async) }}
-    </h2>
+    </h1>
     <div class="w-full flex items-center justify-between gap-x-2 mt-6 mb-12">
       <button class="secondary w-1/2" routerLink="/">Home</button>
       <button class="primary w-1/2" (click)="share()">Share</button>
