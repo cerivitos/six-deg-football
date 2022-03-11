@@ -1,7 +1,11 @@
 <div
   class="text-center mb-4 grid grid-rows-3 justify-center items-center w-full font-bold"
 >
-  <span class="name-text justify-self-center uppercase">{{ name1 }}</span>
+  <span class="name-text justify-self-center uppercase" [@name1Anim]="name1">{{
+    name1
+  }}</span>
   <h3>to</h3>
-  <span class="name-text justify-self-center uppercase">{{ name2 }}</span>
+  <span class="name-text justify-self-center uppercase" [@name2Anim]="name2">{{
+    name2
+  }}</span>
 </div>
