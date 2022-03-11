@@ -19,4 +19,42 @@
       Start Game
     </button>
   </main>
+
+  <footer
+    class="px-4 pb-6 w-full flex flex-col items-center justify-center gap-y-2"
+  >
+    <p class="mb-8 text-center">
+      Data from
+      <a href="https://sofifa.com" target="_blank" rel="noreferrer">SoFIFA</a>
+      +
+      <a href="https://ea.com/fifa" target="_blank" rel="noreferrer"
+        >EASports FIFA</a
+      >
+      — All rights reserved by their respective owners.
+    </p>
+    <div class="flex flex-col md:flex-row items-center text-xs mb-6">
+      <a
+        href="https://buymeacoffee.com/cerivitos"
+        target="_blank"
+        rel="noreferrer"
+        class="mr-0 md:mr-3 mb-3 md:mb-0 w-[132px] py-2 rounded-lg bg-yellow-400 text-black flex justify-center gap-2 hover:text-black hover:bg-yellow-200"
+        ><img
+          src="/assets/bmc-logo-no-background.png"
+          width="12px"
+          alt="Icon for Buy Me A Coffee"
+        />Buy me a coffee</a
+      >
+
+      <a
+        href="https://github.com/cerivitos/six-degrees-football"
+        target="_blank"
+        rel="noreferrer"
+        class="mb-3 mr-0 md:mb-0 md:mr-3"
+        >Github</a
+      >
+
+      <a routerLink="/terms-and-privacy">Terms and Privacy</a>
+    </div>
+    <span class="text-xs text-slate-400">{{ version }}</span>
+  </footer>
 </div>
