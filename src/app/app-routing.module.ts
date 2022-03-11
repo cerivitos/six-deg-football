@@ -20,6 +20,11 @@ const routes: Routes = [
       import('./module/result/result.module').then((m) => m.ResultModule),
   },
   {
+    path: ':gameId',
+    loadChildren: () =>
+      import('./module/game/game.module').then((m) => m.GameModule),
+  },
+  {
     path: '**',
     component: PageNotFoundComponent,
   },

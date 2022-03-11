@@ -84,9 +84,14 @@ export class GameControllerService {
     @Inject(WINDOW) readonly windowRef: any
   ) {}
 
-  async initGame() {
-    this.dataService.getTrendingPlayerId().subscribe(async (id) => {
-      const players = await this.dataService.generateStartAndEndPlayers(id!);
+  async initGame(startPlayerId?: number, endPlayerId?: number) {
+    let players: Player[] | undefined;
+
+    if (startPlayerId && endPlayerId) {
+      players = await this.dataService.generateChallengeGame(
+        startPlayerId,
+        endPlayerId
+      );
 
       if (players) {
         this._startPlayer$.next(players[0]);
@@ -100,7 +105,24 @@ export class GameControllerService {
 
         this.timer = this._startTimer();
       }
-    });
+    } else {
+      this.dataService.getTrendingPlayerId().subscribe(async (id) => {
+        players = await this.dataService.generateStartAndEndPlayers(id!);
+
+        if (players) {
+          this._startPlayer$.next(players[0]);
+          this._endPlayer$.next(players[1]);
+
+          this._steps$.next(0);
+          this._time$.next(0);
+          this._playerHistory$.next([this._startPlayer$.getValue()!]);
+          this._teamHistory$.next([]);
+          this._selectionState$.next('team');
+
+          this.timer = this._startTimer();
+        }
+      });
+    }
   }
 
   resetGame() {

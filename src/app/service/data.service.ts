@@ -45,6 +45,20 @@ export class DataService {
     return undefined;
   }
 
+  async generateChallengeGame(
+    startPlayerId: number,
+    endPlayerId: number
+  ): Promise<Player[] | undefined> {
+    const startPlayer = await this._getPlayer(startPlayerId);
+    const endPlayer = await this._getPlayer(endPlayerId);
+
+    if (startPlayer && endPlayer) {
+      return [startPlayer, endPlayer];
+    } else {
+      return undefined;
+    }
+  }
+
   private async _getPlayer(playerId: number): Promise<Player | undefined> {
     const snapshot = await this.firestore.doc(`players/${playerId}`).ref.get();
 

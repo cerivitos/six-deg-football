@@ -27,6 +27,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game-page',
@@ -54,7 +55,8 @@ import {
 export class GamePageComponent implements OnInit {
   constructor(
     private gameControllerService: GameControllerService,
-    @Inject(WINDOW) readonly windowRef: any
+    @Inject(WINDOW) readonly windowRef: any,
+    private router: Router
   ) {}
 
   @ViewChild('topBar') topBar: ElementRef | undefined;
@@ -92,11 +94,19 @@ export class GamePageComponent implements OnInit {
 
     this.gameControllerService.resetGame();
 
-    this.initGame();
+    if (!this.router.url.includes('/game')) {
+      const playerIds: number[] = this.router.url
+        .slice(1)
+        .split('-')
+        .map((id) => parseInt(id));
+      this.initGame(playerIds[0], playerIds[1]);
+    } else {
+      this.initGame();
+    }
   }
 
-  async initGame() {
-    await this.gameControllerService.initGame();
+  async initGame(startPlayerId?: number, endPlayerId?: number) {
+    await this.gameControllerService.initGame(startPlayerId, endPlayerId);
     this.startPlayer$ = this.gameControllerService.startPlayer$;
     this.endPlayer$ = this.gameControllerService.endPlayer$;
     this.steps$ = this.gameControllerService.steps$;

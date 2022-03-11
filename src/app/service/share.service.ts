@@ -261,9 +261,9 @@ export class ShareService {
 
     const shareText = `${this.startPlayer?.playerName} ➡️${this.steps} ${
       this.endPlayer?.playerName
-    }\n\n🕐${convertSec(this.time)}\n\nhttps://footy.notmydayjob.fyi/game/${
+    }\n🕐${convertSec(this.time)}\n\nhttps://footrace.notmydayjob.fyi/${
       this.startPlayer?.playerId
-    }_${this.endPlayer?.playerId}`;
+    }-${this.endPlayer?.playerId}`;
 
     //if (isMobile()) {
     await navigator.share({
