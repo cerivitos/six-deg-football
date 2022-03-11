@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { StartPageComponent } from './component/start-page/start-page.component';
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 import { NameCarouselComponent } from './component/name-carousel/name-carousel.component';
+import { TermsComponent } from './component/terms/terms.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { NameCarouselComponent } from './component/name-carousel/name-carousel.c
     StartPageComponent,
     PageNotFoundComponent,
     NameCarouselComponent,
+    TermsComponent,
   ],
   imports: [
     BrowserModule,
