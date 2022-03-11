@@ -253,7 +253,7 @@ export class ShareService {
     });
   }
 
-  async share(): Promise<void> {
+  async share(): Promise<boolean> {
     this._initData();
 
     const canvasDataUrl = await this._createCollage();
@@ -265,15 +265,22 @@ export class ShareService {
       this.startPlayer?.playerId
     }-${this.endPlayer?.playerId}`;
 
-    //if (isMobile()) {
-    await navigator.share({
-      text: shareText,
-      files: [new File([blob], 'footy.png', { type: 'image/png' })],
-    });
-    // } else {
-    //   this.clipboard.copy(shareText);
+    if (isMobile()) {
+      try {
+        await navigator.share({
+          text: shareText,
+          files: [new File([blob], 'footrace.png', { type: 'image/png' })],
+        });
 
-    //   this.toast.success('Copied!');
-    // }
+        return true;
+      } catch (err) {
+        this.toast.error('Oops! Something went wrong.');
+        return false;
+      }
+    } else {
+      this.clipboard.copy(shareText);
+      this.toast.success('Copied!');
+      return true;
+    }
   }
 }

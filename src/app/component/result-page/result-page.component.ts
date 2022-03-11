@@ -14,7 +14,6 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Component({
