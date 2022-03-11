@@ -5,7 +5,7 @@
 
 html,
 body {
-  @apply text-slate-800 h-full;
+  @apply text-stone-800 h-full bg-stone-100;
   font-family: "Archivo", sans-serif;
 }
 
@@ -26,13 +26,13 @@ h4 {
 }
 
 a {
-  @apply text-fuchsia-800 cursor-pointer hover:underline hover:text-fuchsia-500;
+  @apply text-fuchsia-700 cursor-pointer hover:underline hover:text-fuchsia-500;
 }
 
 button.primary {
-  @apply px-4 py-2 rounded-lg bg-fuchsia-700 text-white font-bold hover:ring-4 hover:ring-fuchsia-300 transition-all duration-300 active:bg-fuchsia-800 disabled:bg-slate-500;
+  @apply px-4 py-2 rounded-lg bg-fuchsia-600 text-white font-bold hover:ring-4 hover:ring-fuchsia-300 transition-all duration-300 active:bg-fuchsia-700 disabled:bg-stone-500;
 }
 
 button.secondary {
-  @apply px-4 py-2 rounded-lg text-fuchsia-700 font-bold bg-fuchsia-200 hover:bg-fuchsia-300 transition-all duration-300 active:bg-fuchsia-400 hover:ring-4 hover:ring-fuchsia-300 disabled:bg-slate-500;
+  @apply px-4 py-2 rounded-lg text-fuchsia-600 font-bold bg-fuchsia-200 hover:bg-fuchsia-300 transition-all duration-300 active:bg-fuchsia-400 hover:ring-4 hover:ring-fuchsia-300 disabled:bg-stone-500;
 }

@@ -1,3 +1,6 @@
-.gradient-text {
-  @apply px-2 py-1 text-4xl font-bold bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 text-white rounded-md w-min;
+.name-text {
+  @apply text-4xl font-bold;
+  text-decoration-color: blueviolet;
+  text-decoration-line: underline;
+  text-underline-offset: 2px;
 }

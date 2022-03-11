@@ -1,3 +1,13 @@
 .gradient-text {
-  @apply px-2 py-1 text-4xl font-bold bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 text-white rounded-md w-min;
+  @apply px-2 py-1 text-6xl font-black bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 text-white rounded-md;
+}
+
+.background {
+  height: 100%;
+  background-image: url("/assets/ball.png");
+  background-position-x: 50%;
+  background-position-y: -12rem;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 20rem;
 }
