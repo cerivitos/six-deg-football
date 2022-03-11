@@ -5,7 +5,6 @@ import { Player } from '../model/Player';
 import { Team } from '../model/Team';
 import { DataService } from './data.service';
 import { WINDOW } from '@ng-web-apis/common';
-import { take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
