@@ -13,7 +13,9 @@
     </h1>
     <div class="w-full flex items-center justify-between gap-x-2 mt-6 mb-12">
       <button class="secondary w-1/2" routerLink="/">Home</button>
-      <button class="primary w-1/2" (click)="share()">Share</button>
+      <button class="primary w-1/2" [disabled]="isSharing" (click)="share()">
+        {{ isSharing ? "Sharing..." : "Share" }}
+      </button>
     </div>
     <div
       @resultListAnim

@@ -52,6 +52,8 @@ export class ResultPageComponent implements OnInit {
   teamHistory$: Observable<Team[]> = new Observable<Team[]>();
   playerHistory$: Observable<Player[]> = new Observable<Player[]>();
 
+  isSharing: boolean = false;
+
   constructor(
     private gameControllerService: GameControllerService,
     private shareService: ShareService
@@ -428,7 +430,9 @@ export class ResultPageComponent implements OnInit {
     return convertSec(s);
   }
 
-  share() {
-    this.shareService.share();
+  async share() {
+    this.isSharing = true;
+    await this.shareService.share();
+    this.isSharing = false;
   }
 }

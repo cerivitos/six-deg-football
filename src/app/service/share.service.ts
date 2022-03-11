@@ -208,16 +208,15 @@ export class ShareService {
     }
     const image2 = await this._loadImage(base64Img2, true);
 
+    const background = await this._loadImage(
+      '/assets/share-background.png',
+      false
+    );
     const arrow = await this._loadImage('/assets/right-arrow.png', false);
     const stopwatch = await this._loadImage('/assets/stopwatch.png', false);
 
-    //Draw gradient background
-    const gradient = context!.createLinearGradient(0, 0, width, 0);
-    gradient.addColorStop(0, 'rgb(16, 185, 129)');
-    gradient.addColorStop(0.5, 'rgb(20,184, 166)');
-    gradient.addColorStop(1, '#22c55e');
-    context!.fillStyle = gradient;
-    context!.fillRect(0, 0, width, height);
+    //Add background
+    context!.drawImage(background, 0, 0, width, height);
     //Draw player images on canvas
     context!.drawImage(image1, -width * 0.125, 0, width / 2, height);
     context!.drawImage(image2, width * 0.625, 0, width / 2, height);
@@ -225,7 +224,7 @@ export class ShareService {
     context!.drawImage(stopwatch, width / 4 + 32, height / 4 + 72, 64, 64);
     //Draw text on canvas
     context!.font = 'bold 48px Archivo';
-    context!.fillStyle = 'white';
+    context!.fillStyle = '#0c1027';
     context!.textAlign = 'center';
     context!.fillText(
       `${this.steps}`,
