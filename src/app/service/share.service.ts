@@ -173,7 +173,11 @@ export class ShareService {
 
   private async _getImageBase64(player: Player): Promise<string | undefined> {
     return this.http
-      .get<any>(`/api/generate-pic?url=${encodeURIComponent(player.playerImg)}`)
+      .get<any>(
+        `/api/generate-pic?url=${encodeURIComponent(
+          player.playerImg.replace('_30', '_360')
+        )}`
+      )
       .toPromise()
       .then((res) => {
         return res['base64'];
