@@ -130,6 +130,7 @@ export class GameControllerService {
     this._endPlayer$.next(undefined);
 
     this._steps$.next(0);
+    clearInterval(this.timer);
     this._time$.next(0);
     this._playerHistory$.next([]);
     this._teamHistory$.next([]);
