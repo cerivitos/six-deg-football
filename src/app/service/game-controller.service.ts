@@ -174,13 +174,12 @@ export class GameControllerService {
   async onPlayerSelected(player: Player) {
     this._playerHistory$.next(this._playerHistory$.getValue().concat(player));
 
-    this.windowRef.self.scrollTo({ top: 0 });
-
     if (this._checkIfWin(player, this._endPlayer$.getValue()!)) {
       clearInterval(this.timer);
       this._steps$.next(this._steps$.getValue() + 1);
       this.router.navigateByUrl('/result');
     } else {
+      this.windowRef.self.scrollTo({ top: 0 });
       this._selectionState$.next('team');
       this._steps$.next(this._steps$.getValue() + 1);
     }
