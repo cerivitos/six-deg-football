@@ -52,11 +52,12 @@ export class DataService {
       let endPlayer;
 
       for (let i = 0; i < walks; i++) {
-        //Bias random selection towards more recent teams
+        //Bias random selection towards more recent teams according to difficulty
         const randomTeam =
           history[
             Math.floor(
-              Math.random() * Math.max(Math.floor(history.length * 0.25), 1)
+              Math.random() *
+                Math.max(Math.floor(history.length * difficulty * 0.25), 1)
             )
           ];
         generatedTeams.push(randomTeam);
