@@ -50,6 +50,9 @@ export class GameControllerService {
    */
   public readonly endPlayer$ = this._endPlayer$.asObservable();
 
+  private _teamPath$: BehaviorSubject<Team[]> = new BehaviorSubject<Team[]>([]);
+  public readonly teamPath$ = this._teamPath$.asObservable();
+
   private _currentPlayerList$: BehaviorSubject<Player[]> = new BehaviorSubject<
     Player[]
   >([]);
@@ -106,11 +109,12 @@ export class GameControllerService {
       }
     } else {
       this.dataService.getTrendingPlayerId().subscribe(async (id) => {
-        players = await this.dataService.generateStartAndEndPlayers(id!);
+        const generatedData = await this.dataService.generateGameData(id!);
 
-        if (players) {
-          this._startPlayer$.next(players[0]);
-          this._endPlayer$.next(players[1]);
+        if (generatedData) {
+          this._startPlayer$.next(generatedData.players[0] as Player);
+          this._endPlayer$.next(generatedData.players[1] as Player);
+          this._teamPath$.next(generatedData.teams as Team[]);
 
           this._steps$.next(0);
           this._time$.next(0);
@@ -127,6 +131,7 @@ export class GameControllerService {
   resetGame() {
     this._startPlayer$.next(undefined);
     this._endPlayer$.next(undefined);
+    this._teamPath$.next([]);
 
     this._steps$.next(0);
     clearInterval(this.timer);

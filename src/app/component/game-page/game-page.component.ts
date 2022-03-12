@@ -6,12 +6,6 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import {
-  initializeAppCheck,
-  ReCaptchaV3Provider,
-} from '@angular/fire/app-check';
-import { getApp } from '@angular/fire/app';
-import { environment } from 'src/environments/environment';
 import { Player } from 'src/app/model/Player';
 import { GameControllerService } from 'src/app/service/game-controller.service';
 import { Observable } from 'rxjs';
@@ -55,7 +49,7 @@ import { Router } from '@angular/router';
 export class GamePageComponent implements OnInit {
   constructor(
     private gameControllerService: GameControllerService,
-    @Inject(WINDOW) readonly windowRef: any,
+
     private router: Router
   ) {}
 
@@ -71,6 +65,8 @@ export class GamePageComponent implements OnInit {
     Player | undefined
   >();
 
+  teamPath$: Observable<Team[]> = new Observable<Team[]>();
+
   steps$: Observable<number> = new Observable<number>();
   time$: Observable<number> = new Observable<number>();
   selectionState$: Observable<'team' | 'player' | 'loading'> = new Observable<
@@ -83,15 +79,6 @@ export class GamePageComponent implements OnInit {
   currentPlayerList$: Observable<Player[]> = new Observable<Player[]>();
 
   ngOnInit() {
-    if (location.hostname === 'localhost') {
-      this.windowRef.self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-    }
-
-    initializeAppCheck(getApp(), {
-      provider: new ReCaptchaV3Provider(environment.appCheck.key),
-      isTokenAutoRefreshEnabled: true,
-    });
-
     this.gameControllerService.resetGame();
 
     if (!this.router.url.includes('/game')) {
@@ -109,6 +96,7 @@ export class GamePageComponent implements OnInit {
     await this.gameControllerService.initGame(startPlayerId, endPlayerId);
     this.startPlayer$ = this.gameControllerService.startPlayer$;
     this.endPlayer$ = this.gameControllerService.endPlayer$;
+    this.teamPath$ = this.gameControllerService.teamPath$;
     this.steps$ = this.gameControllerService.steps$;
     this.time$ = this.gameControllerService.time$;
     this.selectionState$ = this.gameControllerService.selectionState$;

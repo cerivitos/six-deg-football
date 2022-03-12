@@ -17,11 +17,6 @@ export class SettingsService {
   difficulty$: Observable<number> = this._difficulty$.asObservable();
 
   constructor(@Inject(LOCAL_STORAGE) readonly localStorage: Storage) {
-    const savedPlayer = this.localStorage.getItem('customStartPlayer');
-    if (savedPlayer) {
-      this._customStartPlayer$.next(JSON.parse(savedPlayer) as Player);
-    }
-
     const savedDifficulty = this.localStorage.getItem('difficulty');
     if (savedDifficulty) {
       this._difficulty$.next(parseInt(savedDifficulty));
@@ -37,8 +32,7 @@ export class SettingsService {
     this.localStorage.setItem('difficulty', newDifficulty.toString());
   }
 
-  setCustomStartPlayer(newPlayer: Player) {
-    this._customStartPlayer$.next(newPlayer);
-    this.localStorage.setItem('customStartPlayer', JSON.stringify(newPlayer));
+  getDifficulty(): number {
+    return this._difficulty$.getValue();
   }
 }

@@ -1,32 +1,65 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { WINDOW } from '@ng-web-apis/common';
 import { Observable } from 'rxjs';
 import { Player } from '../model/Player';
 import { Team } from '../model/Team';
+import {
+  initializeAppCheck,
+  ReCaptchaV3Provider,
+} from '@angular/fire/app-check';
+import { getApp } from '@angular/fire/app';
+import { environment } from 'src/environments/environment';
+import { SettingsService } from './settings.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  constructor(private firestore: AngularFirestore, private http: HttpClient) {}
+  constructor(
+    private firestore: AngularFirestore,
+    private http: HttpClient,
+    @Inject(WINDOW) readonly windowRef: any,
+    private settingsService: SettingsService
+  ) {
+    if (location.hostname === 'localhost') {
+      this.windowRef.self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+    }
+
+    initializeAppCheck(getApp(), {
+      provider: new ReCaptchaV3Provider(environment.appCheck.key),
+      isTokenAutoRefreshEnabled: true,
+    });
+  }
 
   getTrendingPlayerId(): Observable<number> {
     return this.http.get<number>('/api/fetch-trending');
   }
 
-  async generateStartAndEndPlayers(
+  async generateGameData(
     startPlayerId: number
-  ): Promise<Player[] | undefined> {
+  ): Promise<Record<string, Player[] | Team[]> | undefined> {
     const startPlayer = await this._getPlayer(startPlayerId);
+    const difficulty = this.settingsService.getDifficulty();
+    let generatedPlayers = [];
+    let generatedTeams = [];
 
     if (startPlayer) {
       let history = startPlayer.history;
-      const walks = Math.floor(Math.random() * 4);
+      //Ensure minimum of one step
+      const walks = Math.floor((Math.random() + 1) * (difficulty + 1));
       let endPlayer;
 
       for (let i = 0; i < walks; i++) {
-        const randomTeam = history[Math.floor(Math.random() * history.length)];
+        //Bias random selection towards more recent teams
+        const randomTeam =
+          history[
+            Math.floor(
+              Math.random() * Math.max(Math.floor(history.length * 0.25), 1)
+            )
+          ];
+        generatedTeams.push(randomTeam);
         const players = await this.getPlayersInTeam(randomTeam);
         const randomPlayer =
           players[Math.floor(Math.random() * players.length)];
@@ -34,8 +67,8 @@ export class DataService {
 
         if (i === walks - 1) {
           endPlayer = randomPlayer;
-
-          return [startPlayer, endPlayer];
+          generatedPlayers = [startPlayer, endPlayer];
+          return { players: generatedPlayers, teams: generatedTeams };
         }
       }
     } else {

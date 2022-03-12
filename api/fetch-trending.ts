@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 
 const url = 'https://sofifa.com/players?offset=';
 
-const randomNumber = Math.floor(Math.random() * 40);
+const randomNumber = Math.floor(Math.random() * 120);
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { AxiosError, AxiosResponse } from 'axios';

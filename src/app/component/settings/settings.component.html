@@ -1,1 +1,40 @@
-<p>settings works!</p>
+<div class="w-full md:w-2/3 p-4 mx-auto">
+  <div class="flex gap-x-4 items-center justify-between mb-6">
+    <button class="secondary w-min" routerLink="/">Back</button>
+    <input
+      placeholder="Search for a start player..."
+      class="appearance-none rounded-lg w-full px-4 py-2 bg-stone-200 focus:outline-none focus:bg-stone-50 focus:ring-2 focus:ring-fuchsia-600 transition-all"
+      #input
+    />
+  </div>
+
+  <h4 class="mb-2">Current start player</h4>
+  <div *ngIf="customStartPlayer; else noStartPlayer">
+    <div class="flex items-center gap-x-2 mb-6">
+      <img
+        src="{{ customStartPlayer!.playerImg.replace('30.png', '90.png') }}"
+        class="object-cover md:h-12 md:w-12 w-10 h-10"
+        onerror="this.src='https://cdn.sofifa.net/players/266/360/22_120.png'"
+      />
+      <span
+        class="md:text-base text-sm text-left line-clamp-2 overflow-ellipsis"
+        >{{ customStartPlayer!.playerName }}</span
+      >
+    </div>
+  </div>
+  <div *ngFor="let player of searchList">
+    <div class="flex items-center gap-x-2 mb-6">
+      <img
+        src="{{ player!.playerImg.replace('30.png', '90.png') }}"
+        class="object-cover md:h-12 md:w-12 w-10 h-10"
+        onerror="this.src='https://cdn.sofifa.net/players/266/360/22_120.png'"
+      />
+      <span
+        class="md:text-base text-sm text-left line-clamp-2 overflow-ellipsis"
+        >{{ player!.playerName }}</span
+      >
+    </div>
+  </div>
+</div>
+
+<ng-template #noStartPlayer><p class="mb-6">Random</p></ng-template>

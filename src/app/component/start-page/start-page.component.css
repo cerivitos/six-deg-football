@@ -10,7 +10,3 @@
   background-repeat: no-repeat;
   background-size: 20rem;
 }
-
-.pill {
-  @apply bg-purple-300 text-purple-600 font-semibold px-2 py-1 rounded-md text-sm;
-}
