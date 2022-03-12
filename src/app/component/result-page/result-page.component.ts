@@ -15,6 +15,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-result-page',
@@ -53,13 +54,15 @@ export class ResultPageComponent implements OnInit {
 
   isSharing: boolean = false;
 
+  USE_TEST_DATA: boolean = false;
+
   constructor(
     private gameControllerService: GameControllerService,
     private shareService: ShareService
   ) {}
 
   ngOnInit(): void {
-    if (environment.production) {
+    if (environment.production || !this.USE_TEST_DATA) {
       this.steps$ = this.gameControllerService.steps$;
       this.time$ = this.gameControllerService.time$;
       this.teamHistory$ = this.gameControllerService.teamHistory$;
