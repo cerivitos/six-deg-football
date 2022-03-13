@@ -29,7 +29,7 @@ export class StartPageComponent implements OnInit {
     this.difficulty$ = this.settingsService.difficulty$;
 
     this.http
-      .get<string>('/api/query-sha')
+      .get('/api/query-sha', { responseType: 'text' })
       .pipe(take(1))
       .subscribe((sha) => (this.version = sha));
   }
