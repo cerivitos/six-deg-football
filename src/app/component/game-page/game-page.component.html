@@ -112,7 +112,14 @@
   </div>
 </div>
 
-<button class="small-fab" routerLink="/">
+<button
+  class="small-fab"
+  [style.top.px]="
+    topBar.clientWidth > 768 ? topBar.offsetHeight + 32 + 16 : undefined
+  "
+  [style.bottom.rem]="topBar.clientWidth > 768 ? undefined : 2 + 4 + 1"
+  routerLink="/"
+>
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="28px"
@@ -125,7 +132,16 @@
     />
   </svg>
 </button>
-<button class="large-fab" (click)="reset()">↻</button>
+<button
+  class="large-fab"
+  [style.top.px]="
+    topBar.clientWidth > 768 ? topBar.offsetHeight - 32 : undefined
+  "
+  [style.bottom.rem]="topBar.clientWidth > 768 ? undefined : 2"
+  (click)="reset()"
+>
+  ↻
+</button>
 
 <ng-template #playerLoading>
   <div class="flex flex-col gap-y-2 px-2 py-4 justify-center items-center">

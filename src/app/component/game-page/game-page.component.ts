@@ -11,7 +11,6 @@ import { GameControllerService } from 'src/app/service/game-controller.service';
 import { Observable } from 'rxjs';
 import { Team } from 'src/app/model/Team';
 import { convertSec } from 'src/app/util/convertSec';
-import { WINDOW } from '@ng-web-apis/common';
 import {
   animate,
   animateChild,
@@ -49,7 +48,6 @@ import { Router } from '@angular/router';
 export class GamePageComponent implements OnInit {
   constructor(
     private gameControllerService: GameControllerService,
-
     private router: Router
   ) {}
 
