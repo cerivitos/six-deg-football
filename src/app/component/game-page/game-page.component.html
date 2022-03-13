@@ -1,4 +1,7 @@
-<div class="flex flex-col items-center overflow-x-hidden">
+<div
+  class="flex flex-col items-center overflow-x-hidden"
+  (window:scroll)="onScroll($event)"
+>
   <div
     #topBar
     class="flex items-center justify-center w-full mb-4 bg-purple-200 fixed z-10"
@@ -113,7 +116,10 @@
 </div>
 
 <button
-  class="small-fab"
+  class="small-fab transition-transform duration-300"
+  *ngIf="scrollDirection === 'up' || topBar.clientWidth > 768"
+  @fabAnim
+  [@.disabled]="topBar.clientWidth > 768"
   [style.top.px]="
     topBar.clientWidth > 768 ? topBar.offsetHeight + 32 + 16 : undefined
   "
@@ -133,6 +139,9 @@
   </svg>
 </button>
 <button
+  *ngIf="scrollDirection === 'up' || topBar.clientWidth > 768"
+  @fabAnim
+  [@.disabled]="topBar.clientWidth > 768"
   class="large-fab"
   [style.top.px]="
     topBar.clientWidth > 768 ? topBar.offsetHeight - 32 : undefined

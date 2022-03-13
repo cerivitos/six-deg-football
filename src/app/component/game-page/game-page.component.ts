@@ -43,6 +43,15 @@ import { Router } from '@angular/router';
       ]),
       transition(':leave', [animate('40ms ease-out', style({ opacity: 0 }))]),
     ]),
+    trigger('fabAnim', [
+      transition(':enter', [
+        style({ transform: 'translateY(200px)' }),
+        animate('200ms ease-in-out', style({ transform: 'translateY(0)' })),
+      ]),
+      transition(':leave', [
+        animate('150ms ease-in-out', style({ transform: 'translateY(200px)' })),
+      ]),
+    ]),
   ],
 })
 export class GamePageComponent implements OnInit {
@@ -53,7 +62,8 @@ export class GamePageComponent implements OnInit {
 
   @ViewChild('topBar') topBar: ElementRef | undefined;
 
-  topBarHeight: number = 0;
+  lastScrollY: number = 0;
+  scrollDirection: 'up' | 'down' = 'up';
 
   startPlayer$: Observable<Player | undefined> = new Observable<
     Player | undefined
@@ -119,5 +129,18 @@ export class GamePageComponent implements OnInit {
     } else {
       this.initGame();
     }
+  }
+
+  onScroll(event: Event) {
+    const buffer = 5;
+    const scrollPosition = (event.composedPath()[1] as Window).scrollY;
+
+    if (scrollPosition > this.lastScrollY + buffer) {
+      this.scrollDirection = 'down';
+    } else if (scrollPosition < this.lastScrollY - buffer) {
+      this.scrollDirection = 'up';
+    }
+
+    this.lastScrollY = scrollPosition;
   }
 }
