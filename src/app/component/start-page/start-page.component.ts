@@ -1,10 +1,9 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { take } from 'rxjs/operators';
-import { Player } from 'src/app/model/Player';
+import { Team } from 'src/app/model/Team';
 import { SettingsService } from 'src/app/service/settings.service';
 
 @Component({
@@ -14,8 +13,8 @@ import { SettingsService } from 'src/app/service/settings.service';
 })
 export class StartPageComponent implements OnInit {
   version: string = '';
-  customStartPlayer$: Observable<Player | undefined> = new Observable<
-    Player | undefined
+  savedStartTeam$: Observable<Team | undefined> = new Observable<
+    Team | undefined
   >();
   difficulty$: Observable<number> = new Observable<number>();
 
@@ -25,7 +24,7 @@ export class StartPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.customStartPlayer$ = this.settingsService.customStartPlayer$;
+    this.savedStartTeam$ = this.settingsService.savedStartTeam$;
     this.difficulty$ = this.settingsService.difficulty$;
 
     this.http

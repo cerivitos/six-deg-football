@@ -1,16 +1,16 @@
 import { Inject, Injectable } from '@angular/core';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Player } from '../model/Player';
+import { Team } from '../model/Team';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
-  private readonly _customStartPlayer$: BehaviorSubject<Player | undefined> =
-    new BehaviorSubject<Player | undefined>(undefined);
-  customStartPlayer$: Observable<Player | undefined> =
-    this._customStartPlayer$.asObservable();
+  private readonly _savedStartTeam$: BehaviorSubject<Team | undefined> =
+    new BehaviorSubject<Team | undefined>(undefined);
+  savedStartTeam$: Observable<Team | undefined> =
+    this._savedStartTeam$.asObservable();
 
   private readonly _difficulty$: BehaviorSubject<number> =
     new BehaviorSubject<number>(1);
@@ -20,6 +20,11 @@ export class SettingsService {
     const savedDifficulty = this.localStorage.getItem('difficulty');
     if (savedDifficulty) {
       this._difficulty$.next(parseInt(savedDifficulty));
+    }
+
+    const savedStartTeam = this.localStorage.getItem('startTeam');
+    if (savedStartTeam) {
+      this._savedStartTeam$.next(JSON.parse(savedStartTeam) as Team);
     }
   }
 
@@ -34,5 +39,19 @@ export class SettingsService {
 
   getDifficulty(): number {
     return this._difficulty$.getValue();
+  }
+
+  setStartTeam(team: Team | undefined) {
+    this._savedStartTeam$.next(team);
+
+    if (team) {
+      this.localStorage.setItem('startTeam', JSON.stringify(team));
+    } else {
+      this.localStorage.removeItem('startTeam');
+    }
+  }
+
+  getStartTeam(): Team | undefined {
+    return this._savedStartTeam$.getValue();
   }
 }

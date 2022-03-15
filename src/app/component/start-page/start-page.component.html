@@ -20,13 +20,44 @@
     </button>
 
     <button
-      class="mb-12 secondary md:w-1/3 w-full grid grid-cols-2"
+      class="mb-6 secondary md:w-1/3 w-full flex gap-x-2 justify-center"
+      routerLink="/settings"
+    >
+      Start with:<span
+        class="font-normal flex gap-x-1 items-center"
+        *ngIf="savedStartTeam$ | async as savedStartTeam; else noStartTeam"
+        ><img
+          [src]="savedStartTeam.teamImg.replace('30.png', '90.png')"
+          class="w-6 h-6 object-cover"
+        />{{ savedStartTeam.teamName }}</span
+      >
+      <ng-template #noStartTeam
+        ><span class="font-light">Random</span></ng-template
+      >
+    </button>
+
+    <button
+      class="mb-12 secondary md:w-1/3 w-full flex gap-x-2 items-center justify-center"
       (click)="setDifficulty()"
     >
-      Difficulty<span [ngSwitch]="difficulty$ | async" class="text-amber-400">
-        <span *ngSwitchCase="1">🏆 🞅 🞅</span>
-        <span *ngSwitchCase="2">🏆 🏆 🞅</span>
-        <span *ngSwitchCase="3">🏆 🏆 🏆</span>
+      Difficulty:<span [ngSwitch]="difficulty$ | async" class="text-amber-400">
+        <span *ngSwitchCase="1" class="flex items-center gap-x-1"
+          ><img src="/assets/trophy.png" class="h-4 w-4" />🞅🞅</span
+        >
+        <span *ngSwitchCase="2" class="flex items-center gap-x-1"
+          ><img
+            *ngFor="let icon of [].constructor(2)"
+            src="/assets/trophy.png"
+            class="h-4 w-4"
+          />
+          🞅</span
+        >
+        <span *ngSwitchCase="3" class="flex items-center gap-x-1"
+          ><img
+            *ngFor="let icon of [].constructor(3)"
+            src="/assets/trophy.png"
+            class="h-4 w-4"
+        /></span>
       </span>
     </button>
   </main>

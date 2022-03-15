@@ -1,3 +1,5 @@
+import { animate, style, transition, trigger } from '@angular/animations';
+import { HttpClient } from '@angular/common/http';
 import {
   Component,
   ElementRef,
@@ -5,46 +7,60 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
+import { LOCAL_STORAGE, WINDOW } from '@ng-web-apis/common';
 import { from, fromEvent, Observable, Subscription } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
   filter,
+  take,
   tap,
 } from 'rxjs/operators';
-import { Player } from 'src/app/model/Player';
-import { DataService } from 'src/app/service/data.service';
+import { Team } from 'src/app/model/Team';
+import { SettingsService } from 'src/app/service/settings.service';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('80ms ease-in', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class SettingsComponent implements OnInit {
-  customStartPlayer: Player | undefined;
-  difficulty: number = 1;
+  savedStartTeam$: Observable<Team | undefined> = new Observable<
+    Team | undefined
+  >();
 
-  searchList: Player[] = [];
+  teamsList: Team[] = [];
+  searchList: Team[] = [];
+  searchString: string = '';
+
+  searchListState: 'not-started' | 'searching' | 'no-results' | 'has-results' =
+    'not-started';
 
   @ViewChild('input') input: ElementRef | undefined;
   inputSubscription: Subscription | undefined;
 
   constructor(
     @Inject(LOCAL_STORAGE) readonly localStorage: Storage,
-    private dataService: DataService
+    @Inject(WINDOW) readonly winRef: Window,
+    private settingsService: SettingsService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-    const savedPlayer = this.localStorage.getItem('customStartPlayer');
-    if (savedPlayer) {
-      this.customStartPlayer = JSON.parse(savedPlayer) as Player;
-    }
+    this.savedStartTeam$ = this.settingsService.savedStartTeam$;
 
-    const savedDifficulty = this.localStorage.getItem('difficulty');
-    if (savedDifficulty) {
-      this.difficulty = parseInt(savedDifficulty);
-    }
+    this.http
+      .get<Team[]>('/assets/allTeams.json')
+      .pipe(take(1))
+      .subscribe((teams) => (this.teamsList = teams));
   }
 
   ngAfterViewInit() {
@@ -57,9 +73,18 @@ export class SettingsComponent implements OnInit {
         debounceTime(250),
         distinctUntilChanged(),
         tap(async (ev) => {
-          const searchString = this.input?.nativeElement.value;
-          if (searchString && searchString.length > 3) {
-            console.table(this.searchList);
+          this.searchListState = 'searching';
+          this.searchString = this.input?.nativeElement.value;
+          if (this.searchString.length > 2) {
+            this.searchList = this._searchTeams(this.searchString);
+
+            if (this.searchList.length === 0) {
+              this.searchListState = 'no-results';
+            } else {
+              this.searchListState = 'has-results';
+            }
+          } else {
+            this.searchListState = 'not-started';
           }
         })
       )
@@ -68,5 +93,44 @@ export class SettingsComponent implements OnInit {
 
   ngOnDestroy() {
     this.inputSubscription?.unsubscribe();
+  }
+
+  private _searchTeams(searchString: string): Team[] {
+    const foundTeams = this.teamsList.filter((team) =>
+      team.teamName.toLowerCase().includes(searchString.toLowerCase())
+    );
+
+    return foundTeams.sort((a, b) => {
+      if (a.teamName < b.teamName) {
+        return -1;
+      }
+      if (a.teamName > b.teamName) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
+  setTeam(team: Team) {
+    this.settingsService.setStartTeam(team);
+    this.winRef.scrollTo(0, 0);
+  }
+
+  generateHighlightedName(team: Team, searchString: string): string {
+    const name = team.teamName;
+    const startIndex = name.toLowerCase().indexOf(searchString.toLowerCase());
+    const endIndex = startIndex + searchString.length;
+
+    return `${name.substring(
+      0,
+      startIndex
+    )}<span class='font-bold text-fuchsia-500'>${name.substring(
+      startIndex,
+      endIndex
+    )}</span>${name.substring(endIndex)}`;
+  }
+
+  clearTeam() {
+    this.settingsService.setStartTeam(undefined);
   }
 }

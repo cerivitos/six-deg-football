@@ -8,33 +8,71 @@
     />
   </div>
 
-  <h4 class="mb-2">Current start player</h4>
-  <div *ngIf="customStartPlayer; else noStartPlayer">
-    <div class="flex items-center gap-x-2 mb-6">
-      <img
-        src="{{ customStartPlayer!.playerImg.replace('30.png', '90.png') }}"
-        class="object-cover md:h-12 md:w-12 w-10 h-10"
-        onerror="this.src='https://cdn.sofifa.net/players/266/360/22_120.png'"
-      />
-      <span
-        class="md:text-base text-sm text-left line-clamp-2 overflow-ellipsis"
-        >{{ customStartPlayer!.playerName }}</span
-      >
+  <h4 class="mb-2">Current start team</h4>
+  <div *ngIf="savedStartTeam$ | async as savedStartTeam; else noStartTeam">
+    <div class="flex items-center justify-between mb-12 py-2">
+      <div class="flex items-center gap-x-2">
+        <img
+          src="{{ savedStartTeam!.teamImg.replace('30.png', '90.png') }}"
+          class="object-cover md:h-12 md:w-12 w-10 h-10"
+        />
+        <span
+          class="md:text-base text-sm text-left line-clamp-2 overflow-ellipsis"
+          >{{ savedStartTeam!.teamName }}</span
+        >
+      </div>
+
+      <button class="secondary w-min" (click)="clearTeam()">Clear</button>
     </div>
   </div>
-  <div *ngFor="let player of searchList">
-    <div class="flex items-center gap-x-2 mb-6">
-      <img
-        src="{{ player!.playerImg.replace('30.png', '90.png') }}"
-        class="object-cover md:h-12 md:w-12 w-10 h-10"
-        onerror="this.src='https://cdn.sofifa.net/players/266/360/22_120.png'"
-      />
-      <span
-        class="md:text-base text-sm text-left line-clamp-2 overflow-ellipsis"
-        >{{ player!.playerName }}</span
-      >
+
+  <div [ngSwitch]="searchListState">
+    <div
+      *ngSwitchCase="'not-started'"
+      class="w-full h-full flex flex-col gap-y-4 items-center justify-center"
+      @fadeIn
+    >
+      <img src="/assets/search.png" class="w-24 h-24" />
+      <p class="text-slate-600">
+        Search for a team from which the Start Player will be picked
+      </p>
+    </div>
+    <div
+      *ngSwitchCase="'no-results'"
+      class="w-full h-full flex flex-col gap-y-4 items-center justify-center"
+      @fadeIn
+    >
+      <img src="/assets/mailbox.png" class="w-24 h-24" />
+      <p class="text-slate-600">No teams found</p>
+    </div>
+    <div *ngSwitchCase="'searching'">
+      <div
+        *ngFor="let panel of [].constructor(10)"
+        class="rounded-sm h-12 w-full bg-slate-200 animate-pulse mb-4"
+      ></div>
+    </div>
+    <div *ngSwitchCase="'has-results'">
+      <div *ngFor="let team of searchList">
+        <div
+          class="flex items-center gap-x-2 py-2 cursor-pointer hover:bg-slate-200 active:bg-slate-300 transition-colors duration-200"
+          (click)="setTeam(team)"
+        >
+          <img
+            src="{{ team!.teamImg.replace('30.png', '90.png') }}"
+            class="object-cover md:h-12 md:w-12 w-10 h-10"
+          />
+          <span
+            class="md:text-base text-sm text-left line-clamp-2 overflow-ellipsis"
+            [innerHTML]="generateHighlightedName(team, searchString)"
+          ></span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<ng-template #noStartPlayer><p class="mb-6">Random</p></ng-template>
+<ng-template #noStartTeam
+  ><p class="mb-12 font-thin h-14 py-2 flex items-center">
+    Random
+  </p></ng-template
+>
