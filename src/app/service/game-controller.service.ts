@@ -1,10 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Player } from '../model/Player';
 import { Team } from '../model/Team';
 import { DataService } from './data.service';
 import { WINDOW } from '@ng-web-apis/common';
+import { SettingsService } from './settings.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +27,9 @@ export class GameControllerService {
 
   timer: any;
 
-  private _selectionState$: BehaviorSubject<'team' | 'player' | 'loading'> =
-    new BehaviorSubject<'team' | 'player' | 'loading'>('team');
+  private _selectionState$: BehaviorSubject<
+    'team' | 'player' | 'loading' | 'error'
+  > = new BehaviorSubject<'team' | 'player' | 'loading' | 'error'>('team');
   /**
    * Selection state flag used to conditionally toggle between team and player selection lists in GamePageComponent
    * @memberof GameControllerService
@@ -83,11 +85,14 @@ export class GameControllerService {
   constructor(
     private dataService: DataService,
     private router: Router,
-    @Inject(WINDOW) readonly windowRef: any
+    @Inject(WINDOW) readonly windowRef: any,
+    private settingsService: SettingsService
   ) {}
 
   async initGame(startPlayerId?: number, endPlayerId?: number) {
     let players: Player[] | undefined;
+
+    const savedStartTeam = this.settingsService.getStartTeam();
 
     if (startPlayerId && endPlayerId) {
       players = await this.dataService.generateChallengeGame(
@@ -99,13 +104,37 @@ export class GameControllerService {
         this._startPlayer$.next(players[0]);
         this._endPlayer$.next(players[1]);
 
-        this._steps$.next(0);
-        this._time$.next(0);
-        this._playerHistory$.next([this._startPlayer$.getValue()!]);
-        this._teamHistory$.next([]);
-        this._selectionState$.next('team');
+        this._initGameInfo();
+      } else {
+        this._selectionState$.next('error');
 
-        this.timer = this._startTimer();
+        throw new Error(
+          `Error during challenge game initialization: Start player Id: ${startPlayerId} End player Id: ${endPlayerId}`
+        );
+      }
+    } else if (savedStartTeam) {
+      const player = await this.dataService.getPlayerFromSavedTeam(
+        savedStartTeam
+      );
+
+      if (player) {
+        const generatedData = await this.dataService.generateGameData(
+          player.playerId
+        );
+
+        if (generatedData) {
+          this._startPlayer$.next(generatedData.players[0] as Player);
+          this._endPlayer$.next(generatedData.players[1] as Player);
+          this._teamPath$.next(generatedData.teams as Team[]);
+
+          this._initGameInfo();
+        }
+      } else {
+        this._selectionState$.next('error');
+
+        throw new Error(
+          `Error during saved team game initialization: Saved start team: ${savedStartTeam}`
+        );
       }
     } else {
       this.dataService.getTrendingPlayerId().subscribe(async (id) => {
@@ -116,16 +145,26 @@ export class GameControllerService {
           this._endPlayer$.next(generatedData.players[1] as Player);
           this._teamPath$.next(generatedData.teams as Team[]);
 
-          this._steps$.next(0);
-          this._time$.next(0);
-          this._playerHistory$.next([this._startPlayer$.getValue()!]);
-          this._teamHistory$.next([]);
-          this._selectionState$.next('team');
+          this._initGameInfo();
+        } else {
+          this._selectionState$.next('error');
 
-          this.timer = this._startTimer();
+          throw new Error(
+            `Error during game initialization: Trending player Id: ${id}`
+          );
         }
       });
     }
+  }
+
+  private _initGameInfo() {
+    this._steps$.next(0);
+    this._time$.next(0);
+    this._playerHistory$.next([this._startPlayer$.getValue()!]);
+    this._teamHistory$.next([]);
+    this._selectionState$.next('team');
+
+    this.timer = this._startTimer();
   }
 
   resetGame() {

@@ -112,6 +112,18 @@
         ></div>
       </div>
     </div>
+
+    <div *ngSwitchCase="'error'" [style.margin-top.px]="topBar.offsetHeight">
+      <div
+        class="w-full h-full flex flex-col gap-y-4 items-center justify-center"
+        @fadeIn
+      >
+        <img src="/assets/error.png" class="w-24 h-24" />
+        <p class="text-slate-600">
+          Oops! Something went wrong. Please try again.
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 

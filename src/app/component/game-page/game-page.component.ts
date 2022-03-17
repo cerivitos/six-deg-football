@@ -77,9 +77,8 @@ export class GamePageComponent implements OnInit {
 
   steps$: Observable<number> = new Observable<number>();
   time$: Observable<number> = new Observable<number>();
-  selectionState$: Observable<'team' | 'player' | 'loading'> = new Observable<
-    'team' | 'player' | 'loading'
-  >();
+  selectionState$: Observable<'team' | 'player' | 'loading' | 'error'> =
+    new Observable<'team' | 'player' | 'loading' | 'error'>();
 
   teamHistory$: Observable<Team[]> = new Observable<Team[]>();
   playerHistory$: Observable<Player[]> = new Observable<Player[]>();
@@ -94,23 +93,28 @@ export class GamePageComponent implements OnInit {
         .slice(1)
         .split('-')
         .map((id) => parseInt(id));
-      this.initGame(playerIds[0], playerIds[1]);
+      this._initGame(playerIds[0], playerIds[1]);
     } else {
-      this.initGame();
+      this._initGame();
     }
   }
 
-  async initGame(startPlayerId?: number, endPlayerId?: number) {
-    await this.gameControllerService.initGame(startPlayerId, endPlayerId);
-    this.startPlayer$ = this.gameControllerService.startPlayer$;
-    this.endPlayer$ = this.gameControllerService.endPlayer$;
-    this.teamPath$ = this.gameControllerService.teamPath$;
-    this.steps$ = this.gameControllerService.steps$;
-    this.time$ = this.gameControllerService.time$;
-    this.selectionState$ = this.gameControllerService.selectionState$;
-    this.teamHistory$ = this.gameControllerService.teamHistory$;
-    this.playerHistory$ = this.gameControllerService.playerHistory$;
-    this.currentPlayerList$ = this.gameControllerService.currentPlayerList$;
+  private async _initGame(startPlayerId?: number, endPlayerId?: number) {
+    try {
+      await this.gameControllerService.initGame(startPlayerId, endPlayerId);
+
+      this.startPlayer$ = this.gameControllerService.startPlayer$;
+      this.endPlayer$ = this.gameControllerService.endPlayer$;
+      this.teamPath$ = this.gameControllerService.teamPath$;
+      this.steps$ = this.gameControllerService.steps$;
+      this.time$ = this.gameControllerService.time$;
+      this.selectionState$ = this.gameControllerService.selectionState$;
+      this.teamHistory$ = this.gameControllerService.teamHistory$;
+      this.playerHistory$ = this.gameControllerService.playerHistory$;
+      this.currentPlayerList$ = this.gameControllerService.currentPlayerList$;
+    } catch (err) {
+      console.warn(err);
+    }
   }
 
   convertSec(s: number | null): string {
@@ -125,9 +129,9 @@ export class GamePageComponent implements OnInit {
         .slice(1)
         .split('-')
         .map((id) => parseInt(id));
-      this.initGame(playerIds[0], playerIds[1]);
+      this._initGame(playerIds[0], playerIds[1]);
     } else {
-      this.initGame();
+      this._initGame();
     }
   }
 
