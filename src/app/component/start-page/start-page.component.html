@@ -40,9 +40,9 @@
       class="mb-12 secondary md:w-1/3 w-full flex gap-x-2 items-center justify-center"
       (click)="setDifficulty()"
     >
-      Difficulty:<span [ngSwitch]="difficulty$ | async" class="text-amber-400">
+      Difficulty:<span [ngSwitch]="difficulty$ | async" class="text-white/40">
         <span *ngSwitchCase="1" class="flex items-center gap-x-1"
-          ><img src="/assets/trophy.png" class="h-4 w-4" />🞅🞅</span
+          ><img src="/assets/trophy.png" class="h-4 w-4" />⬤ ⬤</span
         >
         <span *ngSwitchCase="2" class="flex items-center gap-x-1"
           ><img
@@ -50,7 +50,7 @@
             src="/assets/trophy.png"
             class="h-4 w-4"
           />
-          🞅</span
+          ⬤</span
         >
         <span *ngSwitchCase="3" class="flex items-center gap-x-1"
           ><img
