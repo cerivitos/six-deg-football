@@ -7,8 +7,9 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { LOCAL_STORAGE, WINDOW } from '@ng-web-apis/common';
-import { from, fromEvent, Observable, Subscription } from 'rxjs';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -51,7 +52,8 @@ export class SettingsComponent implements OnInit {
     @Inject(LOCAL_STORAGE) readonly localStorage: Storage,
     @Inject(WINDOW) readonly winRef: Window,
     private settingsService: SettingsService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -113,7 +115,7 @@ export class SettingsComponent implements OnInit {
 
   setTeam(team: Team) {
     this.settingsService.setStartTeam(team);
-    this.winRef.scrollTo(0, 0);
+    this.router.navigateByUrl('/');
   }
 
   generateHighlightedName(team: Team, searchString: string): string {
