@@ -1,7 +1,12 @@
-<div class="p-4 flex flex-col items-center background">
-  <div class="pt-12 justify-center items-center w-full md:w-2/3 flex-col flex">
+<div class="p-4 flex flex-col items-center">
+  <div class="items-center w-full md:w-2/3 flex-col flex">
+    <picture class="w-96 h-96 -mt-24 -ml-48">
+      <source srcset="/assets/boot.webp" type="image/webp" />
+      <source srcset="/assets/boot.png" type="image/png" />
+      <img src="/assets/boot.png" alt="Boot background" />
+    </picture>
     <h1
-      class="mb-2 mt-8 flex items-center gap-x-2 w-full justify-center"
+      class="mb-2 -mt-48 z-10 flex items-center gap-x-2 w-full justify-center"
       @scoreAnim
     >
       <h2 class="text-fuchsia-700 uppercase">Steps</h2>

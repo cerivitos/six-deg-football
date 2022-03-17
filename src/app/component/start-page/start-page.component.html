@@ -1,21 +1,34 @@
-<div class="background">
+<div>
   <header
-    class="p-4 pt-24 pb-12 md:w-full w-min mx-auto text-center flex items-center justify-center"
+    class="p-4 mb-24 md:w-full w-min mx-auto text-center flex flex-col items-center"
   >
-    <h1 class="text-9xl gradient-text">FOOT RACE</h1>
+    <picture class="w-80 h-80 -mt-48">
+      <source srcset="/assets/ball.webp" type="image/webp" />
+      <source srcset="/assets/ball.png" type="image/png" />
+      <img src="/assets/ball.png" alt="Ball background" />
+    </picture>
+    <h1 class="text-9xl gradient-text z-10 -m-12">FOOT RACE</h1>
   </header>
 
   <main
-    class="w-full flex flex-col items-center justify-center px-4 pb-16 overflow-x-hidden"
+    class="w-full flex flex-col items-center justify-center px-4 mb-16 overflow-x-hidden"
   >
     <div class="md:w-1/3 w-full">
-      <h3 class="text-center mb-4">
-        What is the least number of players connecting
-      </h3>
+      <p class="w-full text-center mb-2">
+        Find the least number of players that connect
+      </p>
 
-      <app-name-carousel></app-name-carousel>
+      <picture class="w-full my-1">
+        <source srcset="/assets/instruction.webp" type="image/webp" />
+        <source srcset="/assets/instruction.png" type="image/png" />
+        <img src="/assets/instruction.png" alt="Instructions" />
+      </picture>
+
+      <p class="w-full text-center mt-2">
+        Suggested path (there could be shorter routes!)
+      </p>
     </div>
-    <button class="mt-12 mb-6 primary md:w-1/3 w-full" routerLink="/game">
+    <button class="mt-20 mb-6 primary md:w-1/3 w-full" routerLink="/game">
       Start Game
     </button>
 
@@ -42,22 +55,26 @@
     >
       Difficulty:<span [ngSwitch]="difficulty$ | async" class="text-white/40">
         <span *ngSwitchCase="1" class="flex items-center gap-x-1"
-          ><img src="/assets/trophy.png" class="h-4 w-4" />⬤ ⬤</span
+          ><picture class="w-4 h-4">
+            <source srcset="/assets/trophy.webp" type="image/webp" />
+            <source srcset="/assets/trophy.png" type="image/png" />
+            <img src="/assets/trophy.png" alt="Trophy icon" /> </picture
+          >⬤ ⬤</span
         >
         <span *ngSwitchCase="2" class="flex items-center gap-x-1"
-          ><img
-            *ngFor="let icon of [].constructor(2)"
-            src="/assets/trophy.png"
-            class="h-4 w-4"
-          />
+          ><picture class="w-4 h-4" *ngFor="let icon of [].constructor(2)">
+            <source srcset="/assets/trophy.webp" type="image/webp" />
+            <source srcset="/assets/trophy.png" type="image/png" />
+            <img src="/assets/trophy.png" alt="Trophy icon" />
+          </picture>
           ⬤</span
         >
-        <span *ngSwitchCase="3" class="flex items-center gap-x-1"
-          ><img
-            *ngFor="let icon of [].constructor(3)"
-            src="/assets/trophy.png"
-            class="h-4 w-4"
-        /></span>
+        <span *ngSwitchCase="3" class="flex items-center gap-x-1">
+          <picture class="w-4 h-4" *ngFor="let icon of [].constructor(3)">
+            <source srcset="/assets/trophy.webp" type="image/webp" />
+            <source srcset="/assets/trophy.png" type="image/png" />
+            <img src="/assets/trophy.png" alt="Trophy icon" /> </picture
+        ></span>
       </span>
     </button>
   </main>

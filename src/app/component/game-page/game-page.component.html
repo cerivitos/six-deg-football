@@ -118,7 +118,11 @@
         class="w-full h-full flex flex-col gap-y-4 items-center justify-center"
         @fadeIn
       >
-        <img src="/assets/error.png" class="w-24 h-24" />
+        <picture class="w-24 h-24">
+          <source srcset="/assets/error.webp" type="image/webp" />
+          <source srcset="/assets/error.png" type="image/png" />
+          <img src="/assets/error.png" alt="Error icon" />
+        </picture>
         <p class="text-slate-600">
           Oops! Something went wrong. Please try again.
         </p>
