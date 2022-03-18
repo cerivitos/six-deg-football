@@ -34,7 +34,7 @@ button.primary {
 }
 
 button.secondary {
-  @apply px-4 py-2 rounded-lg text-fuchsia-600 font-bold bg-fuchsia-200 hover:bg-fuchsia-300 transition-all duration-300 active:bg-fuchsia-400 hover:ring-4 hover:ring-fuchsia-300 disabled:bg-stone-500;
+  @apply px-4 py-2 rounded-lg text-fuchsia-700 outline outline-fuchsia-300 font-bold bg-fuchsia-100 hover:bg-fuchsia-200 transition-all duration-300 active:bg-fuchsia-300 hover:ring-4 hover:ring-fuchsia-300 disabled:bg-stone-500;
 }
 
 button.large-fab {
