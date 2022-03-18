@@ -7,15 +7,15 @@
       <source srcset="/assets/ball.png" type="image/png" />
       <img src="/assets/ball.png" alt="Ball background" />
     </picture>
-    <h1 class="text-9xl gradient-text z-10 -m-12">FOOT RACE</h1>
+    <h1 class="text-9xl gradient-text z-10 -m-12 tracking-widest">44f2</h1>
   </header>
 
   <main
-    class="w-full flex flex-col items-center justify-center px-4 mb-16 overflow-x-hidden"
+    class="w-full flex flex-col items-center justify-center mb-16 overflow-x-hidden"
   >
     <div class="md:w-1/3 w-full">
-      <p class="w-full text-center mb-2">
-        Find the least number of players that connect
+      <p class="w-full text-center mb-2 px-4">
+        Find the shortest connection between the 2 players
       </p>
 
       <picture class="w-full my-1">
@@ -24,59 +24,62 @@
         <img src="/assets/instruction.png" alt="Instructions" />
       </picture>
 
-      <p class="w-full text-center mt-2">
+      <p class="w-full text-center mt-2 px-4">
         Suggested path (there could be shorter routes!)
       </p>
     </div>
-    <button class="mt-20 mb-6 primary md:w-1/3 w-full" routerLink="/game">
-      Start Game
-    </button>
 
-    <button
-      class="mb-6 secondary md:w-1/3 w-full flex gap-x-2 justify-center"
-      routerLink="/settings"
-    >
-      Start with:<span
-        class="font-normal flex gap-x-1 items-center"
-        *ngIf="savedStartTeam$ | async as savedStartTeam; else noStartTeam"
-        ><img
-          [src]="savedStartTeam.teamImg.replace('30.png', '90.png')"
-          class="w-6 h-6 object-cover"
-        />{{ savedStartTeam.teamName }}</span
-      >
-      <ng-template #noStartTeam
-        ><span class="font-light">Random</span></ng-template
-      >
-    </button>
+    <div class="px-4 md:w-1/3 w-full">
+      <button class="w-full mt-20 mb-6 primary" routerLink="/game">
+        Start Game
+      </button>
 
-    <button
-      class="mb-12 secondary md:w-1/3 w-full flex gap-x-2 items-center justify-center"
-      (click)="setDifficulty()"
-    >
-      Difficulty:<span [ngSwitch]="difficulty$ | async" class="text-white/40">
-        <span *ngSwitchCase="1" class="flex items-center gap-x-1"
-          ><picture class="w-4 h-4">
-            <source srcset="/assets/trophy.webp" type="image/webp" />
-            <source srcset="/assets/trophy.png" type="image/png" />
-            <img src="/assets/trophy.png" alt="Trophy icon" /> </picture
-          >⬤ ⬤</span
+      <button
+        class="mb-6 secondary w-full flex gap-x-2 justify-center"
+        routerLink="/settings"
+      >
+        Start with:<span
+          class="font-normal flex gap-x-1 items-center"
+          *ngIf="savedStartTeam$ | async as savedStartTeam; else noStartTeam"
+          ><img
+            [src]="savedStartTeam.teamImg.replace('30.png', '90.png')"
+            class="w-6 h-6 object-cover"
+          />{{ savedStartTeam.teamName }}</span
         >
-        <span *ngSwitchCase="2" class="flex items-center gap-x-1"
-          ><picture class="w-4 h-4" *ngFor="let icon of [].constructor(2)">
-            <source srcset="/assets/trophy.webp" type="image/webp" />
-            <source srcset="/assets/trophy.png" type="image/png" />
-            <img src="/assets/trophy.png" alt="Trophy icon" />
-          </picture>
-          ⬤</span
+        <ng-template #noStartTeam
+          ><span class="font-light">Random</span></ng-template
         >
-        <span *ngSwitchCase="3" class="flex items-center gap-x-1">
-          <picture class="w-4 h-4" *ngFor="let icon of [].constructor(3)">
-            <source srcset="/assets/trophy.webp" type="image/webp" />
-            <source srcset="/assets/trophy.png" type="image/png" />
-            <img src="/assets/trophy.png" alt="Trophy icon" /> </picture
-        ></span>
-      </span>
-    </button>
+      </button>
+
+      <button
+        class="mb-12 secondary w-full flex gap-x-2 items-center justify-center"
+        (click)="setDifficulty()"
+      >
+        Difficulty:<span [ngSwitch]="difficulty$ | async" class="text-white/40">
+          <span *ngSwitchCase="1" class="flex items-center gap-x-1"
+            ><picture class="w-4 h-4">
+              <source srcset="/assets/trophy.webp" type="image/webp" />
+              <source srcset="/assets/trophy.png" type="image/png" />
+              <img src="/assets/trophy.png" alt="Trophy icon" /> </picture
+            >⬤ ⬤</span
+          >
+          <span *ngSwitchCase="2" class="flex items-center gap-x-1"
+            ><picture class="w-4 h-4" *ngFor="let icon of [].constructor(2)">
+              <source srcset="/assets/trophy.webp" type="image/webp" />
+              <source srcset="/assets/trophy.png" type="image/png" />
+              <img src="/assets/trophy.png" alt="Trophy icon" />
+            </picture>
+            ⬤</span
+          >
+          <span *ngSwitchCase="3" class="flex items-center gap-x-1">
+            <picture class="w-4 h-4" *ngFor="let icon of [].constructor(3)">
+              <source srcset="/assets/trophy.webp" type="image/webp" />
+              <source srcset="/assets/trophy.png" type="image/png" />
+              <img src="/assets/trophy.png" alt="Trophy icon" /> </picture
+          ></span>
+        </span>
+      </button>
+    </div>
   </main>
 
   <footer
