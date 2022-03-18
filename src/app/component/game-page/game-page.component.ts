@@ -89,19 +89,43 @@ export class GamePageComponent implements OnInit {
     this.gameControllerService.resetGame();
 
     if (!this.router.url.includes('/game')) {
-      const playerIds: number[] = this.router.url
-        .slice(1)
-        .split('-')
-        .map((id) => parseInt(id));
-      this._initGame(playerIds[0], playerIds[1]);
+      const components = this._getChallengeGameComponents();
+
+      this._initGame(
+        components.playerIds,
+        components.teamIds,
+        components.teamPositions
+      );
     } else {
       this._initGame();
     }
   }
 
-  private async _initGame(startPlayerId?: number, endPlayerId?: number) {
+  private _getChallengeGameComponents() {
+    const components: string[] = this.router.url.slice(1).split('~');
+
+    const playerIds = components[0].split('-').map((id) => parseInt(id));
+    const teamIds = components[1].split('-');
+    const teamPositions = components[2].split('-').map((id) => parseInt(id));
+
+    return {
+      playerIds,
+      teamIds,
+      teamPositions,
+    };
+  }
+
+  private async _initGame(
+    playerIds?: number[],
+    teamIds?: string[],
+    teamPositions?: number[]
+  ) {
     try {
-      await this.gameControllerService.initGame(startPlayerId, endPlayerId);
+      await this.gameControllerService.initGame(
+        playerIds,
+        teamIds,
+        teamPositions
+      );
 
       this.startPlayer$ = this.gameControllerService.startPlayer$;
       this.endPlayer$ = this.gameControllerService.endPlayer$;
@@ -125,11 +149,13 @@ export class GamePageComponent implements OnInit {
     this.gameControllerService.resetGame();
 
     if (!this.router.url.includes('/game')) {
-      const playerIds: number[] = this.router.url
-        .slice(1)
-        .split('-')
-        .map((id) => parseInt(id));
-      this._initGame(playerIds[0], playerIds[1]);
+      const components = this._getChallengeGameComponents();
+
+      this._initGame(
+        components.playerIds,
+        components.teamIds,
+        components.teamPositions
+      );
     } else {
       this._initGame();
     }

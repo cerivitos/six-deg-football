@@ -6,6 +6,8 @@ import { Team } from '../model/Team';
 import { DataService } from './data.service';
 import { WINDOW } from '@ng-web-apis/common';
 import { SettingsService } from './settings.service';
+import { HttpClient } from '@angular/common/http';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -86,15 +88,23 @@ export class GameControllerService {
     private dataService: DataService,
     private router: Router,
     @Inject(WINDOW) readonly windowRef: any,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private http: HttpClient
   ) {}
 
-  async initGame(startPlayerId?: number, endPlayerId?: number) {
+  async initGame(
+    playerIds?: number[],
+    teamIds?: string[],
+    teamPositions?: number[]
+  ) {
     let players: Player[] | undefined;
 
     const savedStartTeam = this.settingsService.getStartTeam();
 
-    if (startPlayerId && endPlayerId) {
+    if (playerIds && teamIds && teamPositions) {
+      const startPlayerId = playerIds[0];
+      const endPlayerId = playerIds[1];
+
       players = await this.dataService.generateChallengeGame(
         startPlayerId,
         endPlayerId
@@ -104,7 +114,22 @@ export class GameControllerService {
         this._startPlayer$.next(players[0]);
         this._endPlayer$.next(players[1]);
 
-        this._initGameInfo();
+        this.http
+          .get<Team[]>('/assets/allTeams.json')
+          .pipe(take(1))
+          .subscribe((teams) => {
+            const teamsList = teams;
+            let teamPath: Team[] = [];
+            teamPositions.forEach((pos) => {
+              teamPath.push(
+                teamsList.filter((team) => team.teamId === teamIds[pos])[0]
+              );
+            });
+
+            this._teamPath$.next(teamPath);
+
+            this._initGameInfo();
+          });
       } else {
         this._selectionState$.next('error');
 

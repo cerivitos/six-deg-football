@@ -7,6 +7,7 @@ import { convertSec } from '../util/convertSec';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Player } from '../model/Player';
 import { HttpClient } from '@angular/common/http';
+import { Team } from '../model/Team';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ import { HttpClient } from '@angular/common/http';
 export class ShareService {
   startPlayer: Player | undefined;
   endPlayer: Player | undefined;
+  teamPath: Team[] = [];
   steps: number = 0;
   time: number = 0;
 
@@ -40,6 +42,10 @@ export class ShareService {
     this.gameControllerService.time$
       .pipe(take(1))
       .subscribe((time) => (this.time = time));
+
+    this.gameControllerService.teamPath$
+      .pipe(take(1))
+      .subscribe((path) => (this.teamPath = path));
   }
 
   private async _getImageBase64(player: Player): Promise<string | undefined> {
@@ -124,14 +130,30 @@ export class ShareService {
     });
   }
 
+  private _generateTeamIds(): string {
+    const teamIds = this.teamPath.map((team) => {
+      //Remove season from teamId
+      return team.teamId.split('-')[0];
+    });
+
+    const uniqueTeamIds = [...new Set(teamIds)];
+
+    let teamIdsPositions: string[] = [];
+    teamIds.forEach((teamId) => {
+      teamIdsPositions.push(uniqueTeamIds.indexOf(teamId).toString());
+    });
+
+    return `~${uniqueTeamIds.join('-')}~${teamIdsPositions.join('-')}`;
+  }
+
   async share(): Promise<boolean> {
     this._initData();
 
     const shareText = `${this.startPlayer?.playerName} ➡️${this.steps} ${
       this.endPlayer?.playerName
-    }\n🕐${convertSec(this.time)}\n\nhttps://footrace.notmydayjob.fyi/${
+    }\n🕐${convertSec(this.time)}\n\nhttps://44f2.notmydayjob.fyi/${
       this.startPlayer?.playerId
-    }-${this.endPlayer?.playerId}`;
+    }-${this.endPlayer?.playerId}${this._generateTeamIds()}`;
 
     if (isMobile()) {
       const canvasDataUrl = await this._createCollage();
@@ -140,7 +162,7 @@ export class ShareService {
       try {
         await navigator.share({
           text: shareText,
-          files: [new File([blob], 'footrace.png', { type: 'image/png' })],
+          files: [new File([blob], '44f2.png', { type: 'image/png' })],
         });
 
         return true;
