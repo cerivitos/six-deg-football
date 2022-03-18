@@ -100,11 +100,20 @@
         target="_blank"
         rel="noreferrer"
         class="mr-0 md:mr-3 mb-3 md:mb-0 w-[132px] py-2 rounded-lg bg-yellow-400 text-black flex justify-center gap-2 hover:text-black hover:bg-yellow-200"
-        ><img
-          src="/assets/bmc-logo-no-background.png"
-          width="12px"
-          alt="Icon for Buy Me A Coffee"
-        />Buy me a coffee</a
+        ><picture class="w-[12px]">
+          <source
+            srcset="/assets/bmc-logo-no-background.webp"
+            type="image/webp"
+          />
+          <source
+            srcset="/assets/bmc-logo-no-background.png"
+            type="image/png"
+          />
+          <img
+            src="/assets/bmc-logo-no-background.png"
+            alt="Buy Me A Coffee icon"
+          /> </picture
+        >Buy me a coffee</a
       >
 
       <a
@@ -117,6 +126,6 @@
 
       <a routerLink="/terms">Terms and Privacy</a>
     </div>
-    <span class="text-xs text-slate-400">{{ version }}</span>
+    <span class="text-xs">{{ version }}</span>
   </footer>
 </div>
