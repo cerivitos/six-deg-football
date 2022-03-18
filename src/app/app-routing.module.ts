@@ -28,6 +28,7 @@ const routes: Routes = [
   {
     path: 'terms',
     component: TermsComponent,
+    pathMatch: 'full',
   },
   {
     path: ':gameId',
