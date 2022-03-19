@@ -163,25 +163,25 @@ export class ShareService {
       this.startPlayer?.playerId
     }-${this.endPlayer?.playerId}${this._generateTeamIds()}`;
 
-    //if (isMobile()) {
-    const canvasDataUrl = await this._createCollage();
-    const blob = await (await fetch(canvasDataUrl)).blob();
+    if (isMobile()) {
+      const canvasDataUrl = await this._createCollage();
+      const blob = await (await fetch(canvasDataUrl)).blob();
 
-    try {
-      await navigator.share({
-        text: shareText,
-        files: [new File([blob], '44f2.png', { type: 'image/png' })],
-      });
+      try {
+        await navigator.share({
+          text: shareText,
+          files: [new File([blob], '44f2.png', { type: 'image/png' })],
+        });
 
+        return true;
+      } catch (err) {
+        this.toast.error('Oops! Something went wrong.');
+        return false;
+      }
+    } else {
+      this.clipboard.copy(shareText);
+      this.toast.success('Copied!');
       return true;
-    } catch (err) {
-      this.toast.error('Oops! Something went wrong.');
-      return false;
     }
-    // } else {
-    //   this.clipboard.copy(shareText);
-    //   this.toast.success('Copied!');
-    //   return true;
-    // }
   }
 }
