@@ -48,13 +48,9 @@ export class ShareService {
       .subscribe((path) => (this.teamPath = path));
   }
 
-  private async _getImageBase64(player: Player): Promise<string | undefined> {
+  private async _getImageBase64(imgUrl: string): Promise<string | undefined> {
     return this.http
-      .get<any>(
-        `/api/generate-pic?url=${encodeURIComponent(
-          player.playerImg.replace('_30', '_360')
-        )}`
-      )
+      .get<any>(`/api/generate-pic?url=${encodeURIComponent(imgUrl)}`)
       .toPromise()
       .then((res) => {
         return res['base64'];
@@ -73,48 +69,60 @@ export class ShareService {
     canvas.height = height;
     canvas.width = width;
 
-    const base64Img1 = await this._getImageBase64(this.startPlayer!);
+    const base64Img1 = await this._getImageBase64(
+      this.startPlayer!.playerImg.replace('30.png', '360.png')
+    );
     if (!base64Img1) {
       throw Error(`Could not get image for ${this.startPlayer?.playerName}`);
     }
-    const image1 = await this._loadImage(base64Img1, true);
+    const playerImg1 = await this._loadImage(base64Img1, true);
 
-    const base64Img2 = await this._getImageBase64(this.endPlayer!);
+    const base64Img2 = await this._getImageBase64(
+      this.endPlayer!.playerImg.replace('30.png', '360.png')
+    );
     if (!base64Img2) {
       throw Error(`Could not get image for ${this.endPlayer?.playerName}`);
     }
-    const image2 = await this._loadImage(base64Img2, true);
+    const playerImg2 = await this._loadImage(base64Img2, true);
+
+    const base64Img3 = await this._getImageBase64(
+      this.startPlayer!.history[0].teamImg.replace('30.png', '120.png')
+    );
+    if (!base64Img3) {
+      throw Error(
+        `Could not get image for ${this.endPlayer?.history[0].teamName}`
+      );
+    }
+    const teamImg1 = await this._loadImage(base64Img3, true);
+
+    const base64Img4 = await this._getImageBase64(
+      this.endPlayer!.history[0].teamImg.replace('30.png', '120.png')
+    );
+    if (!base64Img4) {
+      throw Error(
+        `Could not get image for ${this.startPlayer?.history[0].teamName}`
+      );
+    }
+    const teamImg2 = await this._loadImage(base64Img4, true);
 
     const background = await this._loadImage(
       '/assets/share-background.png',
       false
     );
-    const arrow = await this._loadImage('/assets/right-arrow.png', false);
-    const stopwatch = await this._loadImage('/assets/stopwatch.png', false);
 
     //Add background
     context!.drawImage(background, 0, 0, width, height);
     //Draw player images on canvas
-    context!.drawImage(image1, -width * 0.125, 0, width / 2, height);
-    context!.drawImage(image2, width * 0.625, 0, width / 2, height);
-    context!.drawImage(arrow, width / 4 + 32, height / 4 - 12, 64, 64);
-    context!.drawImage(stopwatch, width / 4 + 32, height / 4 + 72, 64, 64);
+    context!.drawImage(playerImg1, -60, 120, 240, 240);
+    context!.drawImage(playerImg2, 300, 120, 240, 240);
+    context!.drawImage(teamImg1, 10, 370, 100, 100);
+    context!.drawImage(teamImg2, 370, 370, 100, 100);
     //Draw text on canvas
     context!.font = 'bold 48px Archivo';
-    context!.fillStyle = '#0c1027';
-    context!.textAlign = 'center';
-    context!.fillText(
-      `${this.steps}`,
-      width / 2 + 32,
-      height / 2 - 24,
-      width / 4
-    );
-    context!.fillText(
-      `${convertSec(this.time)}`,
-      width / 2 + 32,
-      height / 2 + 64,
-      width / 4
-    );
+    context!.fillStyle = '#008DA6';
+    context!.textAlign = 'left';
+    context!.fillText(`${this.steps}`, 220, 410, width / 4);
+    context!.fillText(`${convertSec(this.time)}`, 220, 465, width / 4);
     return canvas.toDataURL('image/png');
   }
 
@@ -155,25 +163,25 @@ export class ShareService {
       this.startPlayer?.playerId
     }-${this.endPlayer?.playerId}${this._generateTeamIds()}`;
 
-    if (isMobile()) {
-      const canvasDataUrl = await this._createCollage();
-      const blob = await (await fetch(canvasDataUrl)).blob();
+    //if (isMobile()) {
+    const canvasDataUrl = await this._createCollage();
+    const blob = await (await fetch(canvasDataUrl)).blob();
 
-      try {
-        await navigator.share({
-          text: shareText,
-          files: [new File([blob], '44f2.png', { type: 'image/png' })],
-        });
+    try {
+      await navigator.share({
+        text: shareText,
+        files: [new File([blob], '44f2.png', { type: 'image/png' })],
+      });
 
-        return true;
-      } catch (err) {
-        this.toast.error('Oops! Something went wrong.');
-        return false;
-      }
-    } else {
-      this.clipboard.copy(shareText);
-      this.toast.success('Copied!');
       return true;
+    } catch (err) {
+      this.toast.error('Oops! Something went wrong.');
+      return false;
     }
+    // } else {
+    //   this.clipboard.copy(shareText);
+    //   this.toast.success('Copied!');
+    //   return true;
+    // }
   }
 }
