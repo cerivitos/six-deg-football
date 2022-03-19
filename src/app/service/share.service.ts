@@ -157,7 +157,7 @@ export class ShareService {
   async share(): Promise<boolean> {
     this._initData();
 
-    const shareText = `${this.startPlayer?.playerName} ➡️${this.steps}➡️ ${
+    const shareText = `${this.startPlayer?.playerName} ➡️${this.steps} ${
       this.endPlayer?.playerName
     }\n🕐${convertSec(this.time)}\n\n🔗https://44f2.notmydayjob.fyi/${
       this.startPlayer?.playerId
