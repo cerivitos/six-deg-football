@@ -68,7 +68,7 @@ export class ShareService {
   private async _createCollage(): Promise<string> {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    const height = 240;
+    const height = 480;
     const width = 480;
     canvas.height = height;
     canvas.width = width;
@@ -149,16 +149,16 @@ export class ShareService {
   async share(): Promise<boolean> {
     this._initData();
 
-    const shareText = `${this.startPlayer?.playerName} ➡️${this.steps} ${
+    const shareText = `${this.startPlayer?.playerName} ➡️${this.steps}➡️ ${
       this.endPlayer?.playerName
-    }\n🕐${convertSec(this.time)}\n\nhttps://44f2.notmydayjob.fyi/${
+    }\n🕐${convertSec(this.time)}\n\n🔗https://44f2.notmydayjob.fyi/${
       this.startPlayer?.playerId
     }-${this.endPlayer?.playerId}${this._generateTeamIds()}`;
 
     if (isMobile()) {
       const canvasDataUrl = await this._createCollage();
       const blob = await (await fetch(canvasDataUrl)).blob();
-      //TO-DO: Save game info to firestore
+
       try {
         await navigator.share({
           text: shareText,
